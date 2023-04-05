@@ -1,44 +1,21 @@
-import './App.css';
+import { AuthPage } from './pages/AuthPage';
+import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
+import { Navbar } from './components/Navbar';
+import { DataPage } from './pages/DataPage';
 
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path = "/" element = {<Navbar/>}>
+      <Route index element = {<AuthPage/>}/>
+      <Route path="/data" element = {<DataPage/>}/>
 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-
-
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyA_gnVJxSBAE-BMqJsMcUMgF0N8l6BMIrw",
-  authDomain: "szakdoga-a8fb9.firebaseapp.com",
-  projectId: "szakdoga-a8fb9",
-  storageBucket: "szakdoga-a8fb9.appspot.com",
-  messagingSenderId: "156338303940",
-  appId: "1:156338303940:web:45715b7107f8c7720caa91",
-  measurementId: "G-VGWFHD0HEM"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-
-const auth = getAuth(app);
-const firestore = getFirestore(app);
+    </Route>
+  )
+)
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        
-      </header>
-    </div>
+    <RouterProvider router={router}/>
   );
 }
 
