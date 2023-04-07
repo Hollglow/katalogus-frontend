@@ -1,6 +1,6 @@
 import { AuthForm } from "../components/AuthForm";
 
-export const AuthPage = () => {
+export const SignInPage = () => {
   return(
     <AuthForm></AuthForm>
     );
