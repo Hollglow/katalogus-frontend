@@ -1,20 +1,21 @@
 import { TextField, Container, Box, Button, Paper, Divider, Typography} from "@mui/material";
 import { useState } from "react";
 import { auth, googleProvider } from "../config/firebase";
-import { signInWithEmailAndPassword, signInWithPopup, signOut} from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { GoogleIcon } from '../assets/icons/GoogleIcon'
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 export const AuthForm = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   
-  console.log(auth?.currentUser);
+  const navigate = useNavigate();
 
   const signIn = async () => {
     try{
       await signInWithEmailAndPassword(auth, email, password);
+      navigate("/");
     } catch(err) {
       console.error(err)
     }
@@ -23,14 +24,7 @@ export const AuthForm = () => {
   const signInGoogle = async () => {
     try{
       await signInWithPopup(auth, googleProvider);
-    } catch(err) {
-      console.error(err)
-    }
-  };
-
-  const logOut = async () => {
-    try{
-      await signOut(auth);
+      navigate("/");
     } catch(err) {
       console.error(err)
     }
@@ -54,7 +48,6 @@ export const AuthForm = () => {
           <Typography>Sign In With</Typography>
           <Button sx={{width: 'fit-content' }} onClick={signInGoogle} variant="contained" startIcon={<GoogleIcon/>}>Google</Button>
           </Container>
-          <Button onClick={logOut} variant="contained">Log Out</Button>
       </Box>
     
   );

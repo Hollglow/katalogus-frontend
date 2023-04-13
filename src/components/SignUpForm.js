@@ -3,22 +3,22 @@ import { useState } from "react";
 import { auth, googleProvider } from "../config/firebase";
 import { createUserWithEmailAndPassword, signInWithPopup, updateProfile} from "firebase/auth";
 import { GoogleIcon } from '../assets/icons/GoogleIcon'
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 export const SignUpForm = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
+  const navigate = useNavigate();
   
-  console.log(auth?.currentUser);
-
   const signUp = async () => {
     try{
       await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(auth.currentUser, {
         displayName: displayName, photoURL: "https://picsum.photos/200"
       });
+      navigate("/");
     } catch(err) {
       console.error(err)
     }
@@ -27,6 +27,7 @@ export const SignUpForm = () => {
   const signInGoogle = async () => {
     try{
       await signInWithPopup(auth, googleProvider);
+      navigate("/");
     } catch(err) {
       console.error(err)
     }
