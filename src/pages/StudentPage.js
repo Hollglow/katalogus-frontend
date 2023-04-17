@@ -1,10 +1,9 @@
 import { CircularProgress, Typography } from "@mui/material";
-import { ClassStudentsTable } from "../components/ClassStudentsTable";
 import { doc, getDoc } from "firebase/firestore";
 import { firestore } from "../config/firebase";
-import { useLoaderData, useNavigation } from "react-router-dom";
+import { useLoaderData, useNavigation, useParams } from "react-router-dom";
 
-export const DataPage = () =>{
+export const StudentPage = () =>{
   const data = useLoaderData();
   const navigation = useNavigation();
 
@@ -13,19 +12,21 @@ export const DataPage = () =>{
   }
   return(
     <>
+    <Typography>Student Page</Typography>
     <Typography>
-      {data.Osztalyfonok}
+      {data.Nev}
     </Typography>
-    <ClassStudentsTable students={data.Diakok}/>
     </>
   );
 }
 
-export const classLoader = async () => {
-  const ref = doc(firestore, "Osztalyok", "11J");
+export const studentLoader = async (params) => {
+  console.log(params);
+  console.log("I HAVE ENTERED LOADER");
+  const ref = doc(firestore, "Tanulok", params.studentId);
   try {
-    const oszyalySnap = await getDoc(ref);
-    return oszyalySnap.data();
+    const tanuloSnap = await getDoc(ref);
+    return tanuloSnap.data();
   } catch (err) {
     console.error(err);
     return null;
