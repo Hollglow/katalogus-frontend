@@ -1,7 +1,10 @@
-import { CircularProgress, Typography } from "@mui/material";
+import { CircularProgress, Paper, Typography, Box } from "@mui/material";
 import { doc, getDoc } from "firebase/firestore";
 import { firestore } from "../config/firebase";
-import { useLoaderData, useNavigation, useParams } from "react-router-dom";
+import { useLoaderData, useNavigation } from "react-router-dom";
+import { merge } from 'lodash';
+import { StudentProfileCard } from "../components/StudentProfileCard";
+import { StudentInformationCard } from "../components/StudentInformationCard";
 
 export const StudentPage = () =>{
   const data = useLoaderData();
@@ -11,22 +14,20 @@ export const StudentPage = () =>{
     return <CircularProgress />;
   }
   return(
-    <>
-    <Typography>Student Page</Typography>
-    <Typography>
-      {data.Nev}
-    </Typography>
-    </>
+    <Box sx={{display: "flex"}}>
+      <StudentProfileCard data = {data}/>
+      <StudentInformationCard data = {data}/>
+    </Box>
   );
 }
 
 export const studentLoader = async (params) => {
-  console.log(params);
   console.log("I HAVE ENTERED LOADER");
   const ref = doc(firestore, "Tanulok", params.studentId);
   try {
     const tanuloSnap = await getDoc(ref);
-    return tanuloSnap.data();
+    const tanuloInfoSnap = await getDoc(doc(ref, "Informaciok", "Informacio"));
+    return merge(tanuloSnap.data(), tanuloInfoSnap.data());
   } catch (err) {
     console.error(err);
     return null;

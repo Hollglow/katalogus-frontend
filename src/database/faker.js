@@ -6,17 +6,16 @@ export const tanulokFill = async () => {
   const ref = doc(collection(firestore, "Tanulok"));
 
   await setDoc(ref, {
-    Nev: faker.name.fullName()
+    Nev: faker.name.fullName(),
+    Osztaly: "11J"
     });
 
-  await addDoc(collection(ref, "Informaciok"),{
-    Osztaly: "11J",
+  await setDoc(doc(ref, "Informaciok", "Informacio"),{
+    
     Apa: faker.name.fullName({gender:'male'}),
     Anya: faker.name.fullName({gender:'female'}),
-    Cim: {
-      Varos: faker.address.cityName(),
-      Utca: faker.address.streetAddress(true)
-    },
+    Varos: faker.address.cityName(),
+    Utca: faker.address.streetAddress(true),
     Telefon: faker.phone.number('+40 ### ### ###'),
     Anyanyelv: "Magyar",
     Vallas: "Romai-Katolikus",
