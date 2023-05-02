@@ -6,6 +6,7 @@ import { DataPage } from './pages/DataPage';
 import { WelcomePage } from './pages/WelcomePage';
 import { classLoader } from './pages/DataPage';
 import { StudentPage, studentLoader } from './pages/StudentPage';
+import { AllStudentPage, allStudentLoader } from './pages/AllStudentPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,6 +16,7 @@ const router = createBrowserRouter(
       <Route path="/sign-up" element = {<SignUpPage/>}/>
       <Route path="/data" element = {<DataPage/>} loader={classLoader}/>
       <Route path="/students/:studentId" element = {<StudentPage/>} loader={({params}) => studentLoader(params)}/>
+      <Route path="/students" element = {<AllStudentPage/>} loader={allStudentLoader}/>
 
     </Route>
   )

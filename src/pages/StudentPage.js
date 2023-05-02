@@ -1,4 +1,4 @@
-import { CircularProgress, Paper, Typography, Box } from "@mui/material";
+import { CircularProgress, Box } from "@mui/material";
 import { doc, getDoc } from "firebase/firestore";
 import { firestore } from "../config/firebase";
 import { useLoaderData, useNavigation } from "react-router-dom";
@@ -22,7 +22,6 @@ export const StudentPage = () =>{
 }
 
 export const studentLoader = async (params) => {
-  console.log("I HAVE ENTERED LOADER");
   const ref = doc(firestore, "Tanulok", params.studentId);
   try {
     const tanuloSnap = await getDoc(ref);

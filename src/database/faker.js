@@ -26,10 +26,10 @@ export const tanulokFill = async () => {
 }
 
 export const osztalyokFill = async() =>{
-  const ref = doc(firestore, "Osztalyok", "11J");
+  const ref = doc(firestore, "Osztalyok", "10H");
   await setDoc(ref, {
     Osztalyfonok: faker.name.fullName(),
-    Diakok: [faker.name.fullName(),faker.name.fullName(),faker.name.fullName(),faker.name.fullName(),faker.name.fullName(),faker.name.fullName()]
+    Diakok: {[`${faker.database.mongodbObjectId()}`]: faker.name.fullName(), [`${faker.database.mongodbObjectId()}`]: faker.name.fullName(), [`${faker.database.mongodbObjectId()}`]: faker.name.fullName(), [`${faker.database.mongodbObjectId()}`]: faker.name.fullName(), [`${faker.database.mongodbObjectId()}`]: faker.name.fullName(), [`${faker.database.mongodbObjectId()}`]: faker.name.fullName()}
   });
   await addDoc(collection(ref, "Tanarok"), {
     [faker.word.noun()]: faker.name.fullName(),
