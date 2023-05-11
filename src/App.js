@@ -14,7 +14,8 @@ const router = createBrowserRouter(
       <Route index element = {<WelcomePage/>}/>
       <Route path="/sign-in" element = {<SignInPage/>}/>
       <Route path="/sign-up" element = {<SignUpPage/>}/>
-      <Route path="/data" element = {<DataPage/>} loader={classLoader}/>
+      <Route path="/classes" element = {<DataPage/>} loader={classLoader}/>
+      <Route path="/classes/:classId" element = {<DataPage/>} loader={({params}) => classLoader(params)}/>
       <Route path="/students/:studentId" element = {<StudentPage/>} loader={({params}) => studentLoader(params)}/>
       <Route path="/students" element = {<AllStudentPage/>} loader={allStudentLoader}/>
 

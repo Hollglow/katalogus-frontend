@@ -2,8 +2,12 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { Link as RouterLink } from "react-router-dom";
 
 export const ClassStudentsTable = (props) => {
-  const tableHeader = props.id ? <TableCell>{props.id}</TableCell> : <TableCell>Név</TableCell>;
-  console.log(props.filter);
+  const tableHeader = props.id ? <Button component={RouterLink} to ={`/classes/${props.id}`}>
+                                  <TableCell>{props.id}</TableCell>
+                                 </Button>
+                                : 
+                                 <TableCell>Név</TableCell>;
+  const filter = props.filter ? props.filter : "";
   return (
     <TableContainer component={Paper} sx={{margin:'auto', maxWidth:'50%'}}>
       <Table>
@@ -14,7 +18,8 @@ export const ClassStudentsTable = (props) => {
         </TableHead>
         <TableBody>
           {Object.entries(props.students).map(([id, student]) => (
-            student.toLowerCase().includes(props.filter.toLowerCase()) && <TableRow key={id}>
+            student.toLowerCase().includes(filter.toLowerCase()) && 
+            <TableRow key={id}>
               <Button component={RouterLink} to={`/students/${id}`} sx={{width:'-moz-available', display:'block'}}>
                 <TableCell>{student}</TableCell>
               </Button>

@@ -21,8 +21,9 @@ export const DataPage = () =>{
   );
 }
 
-export const classLoader = async () => {
-  const ref = doc(firestore, "Osztalyok", "11J");
+export const classLoader = async (params) => {
+
+  const ref = params.classId ?  doc(firestore, "Osztalyok", `${params.classId}`) : doc(firestore, "Osztalyok", "11");
   try {
     const oszyalySnap = await getDoc(ref);
     return oszyalySnap.data();

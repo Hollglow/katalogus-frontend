@@ -15,7 +15,7 @@ export const Navbar = () => {
     <AppBar position="static">      
         <Toolbar>
           <Button component={RouterLink} to="/" color="secondary">Home</Button>
-          <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to="/data" color="secondary">Data</Button>
+          <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to="/classes" color="secondary">Classes</Button>
           <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to="/students" color="secondary">Students</Button>
           <AuthButtons/>
         </Toolbar>
