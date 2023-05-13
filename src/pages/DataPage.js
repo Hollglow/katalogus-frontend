@@ -1,5 +1,4 @@
 import { CircularProgress, Typography } from "@mui/material";
-import { ClassStudentsTable } from "../components/ClassStudentsTable";
 import { doc, getDoc } from "firebase/firestore";
 import { firestore } from "../config/firebase";
 import { useLoaderData, useNavigation } from "react-router-dom";
