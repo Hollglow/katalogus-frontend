@@ -1,6 +1,8 @@
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 import { Link as RouterLink } from "react-router-dom";
 
+
+//DEPRECATED OBSOLETE
 export const ClassStudentsTable = (props) => {
   const tableHeader = props.id ? <Button component={RouterLink} to ={`/classes/${props.id}`}>
                                   <TableCell>{props.id}</TableCell>
@@ -8,6 +10,7 @@ export const ClassStudentsTable = (props) => {
                                 : 
                                  <TableCell>Név</TableCell>;
   const filter = props.filter ? props.filter : "";
+  console.log(props.students)
   return (
     <TableContainer component={Paper} sx={{margin:'auto', maxWidth:'50%'}}>
       <Table>

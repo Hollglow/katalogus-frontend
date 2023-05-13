@@ -13,7 +13,6 @@ export const WelcomePage = () =>{
     <Button variant="contained" component="label">Test Excel Tanulok<input type="file" accept=".csv" hidden onChange={tanulokFillExcel}></input></Button>
     <Button variant="contained" component="label">Test Excel Tanarok<input type="file" accept=".csv" hidden onChange={tanarokFillExcel}></input></Button>
     <Button variant="contained" component="label">Test Excel Tanar Beosztas<input type="file" accept=".csv" hidden onChange={tanarbeosztasFillExcel}></input></Button>
-    
     </>
   );
 }

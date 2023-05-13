@@ -106,8 +106,8 @@ const beosztasFill = async(beosztas) => {
   const tanarokRef = doc(firestore, "Tanarok", `${beosztas[0]}`);
   const tanarSnapshot = await getDoc(tanarokRef);
 
+  let iter = 3;
   if (tanarSnapshot.data()){
-    var iter = 3;
     for (iter = 3; iter < beosztas.length; iter++) {
       await updateDoc(tanarokRef, {
         [`Tantargy.${beosztas[iter]}`]: `${beosztas[2]}`
@@ -117,7 +117,7 @@ const beosztasFill = async(beosztas) => {
 
   const osztalyokRef = collection(firestore, "Osztalyok");
 
-  var osztalyRef;
+  let osztalyRef;
   for (iter = 3; iter < beosztas.length; iter++){
     osztalyRef = doc(osztalyokRef, `${beosztas[iter]}`);
     await updateDoc(osztalyRef, {

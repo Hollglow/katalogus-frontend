@@ -1,24 +1,33 @@
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Container, Stack } from "@mui/material";
 import { ClassStudentsTable } from "../components/ClassStudentsTable";
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "../config/firebase";
 import { useLoaderData, useNavigation } from "react-router-dom";
 import { SearchBar } from "../components/SearchBar";
 import { useState } from "react";
+import { ClassSelector } from "../components/ClassSelector";
+import { PaginatedStudentTable } from "../components/PaginatedStudentTable";
+
 
 export const AllStudentPage = () =>{
   const data = useLoaderData();
   const navigation = useNavigation();
   const [searchValue, setSearchValue] = useState("");
+  const [classValue, setClassValue] = useState("");
 
   if (navigation.state === "loading") {
     return <CircularProgress />;
   }
   return(
     <>
-    <SearchBar callback={(searchValue) => setSearchValue(searchValue)}/>
-    {data.docs.map((doc) => {
-      return <ClassStudentsTable students={doc.data().Diakok} id = {doc.id} filter = {searchValue}/>
+    <Stack sx={{maxWidth: 500, margin: "25px auto 10px"}} direction="row" justifyContent="center" alignItems="center" spacing={1}>
+      <SearchBar callback={(searchValue) => setSearchValue(searchValue)}/>
+      <ClassSelector callback={(classValue) => setClassValue(classValue)} options = {data.docs.map((doc) => {return doc.id})}/>
+    </Stack>
+
+    {!classValue && <PaginatedStudentTable data ={Object.assign(...data.docs.map((doc) => {return doc.data().Diakok}))} filter = {searchValue} />}
+    {classValue && data.docs.map((doc) => {
+      return classValue === doc.id ? <PaginatedStudentTable data={doc.data().Diakok} classId = {doc.id} filter = {searchValue}/> : null
 
     })}
     </>
