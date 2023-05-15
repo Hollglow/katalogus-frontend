@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { tanulokFill, osztalyokFill, tanarokFill, jegyekFill, tantargyakFill } from "../database/faker";
+import { tanulokFill, osztalyokFill, tanarokFill, jegyekFill, tantargyakFill, hianyzasFill } from "../database/faker";
 
 export const WelcomePage = () =>{
   return(
@@ -9,6 +9,7 @@ export const WelcomePage = () =>{
     <Button onClick={tanarokFill}>Fill Tanarok</Button>
     <Button onClick={jegyekFill}>Fill Jegyek</Button>
     <Button onClick={tantargyakFill}>Fill Tantargyak</Button>
+    <Button onClick={hianyzasFill}>Fill Hianyzasok</Button>
     </>
   );
 }

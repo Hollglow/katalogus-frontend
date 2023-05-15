@@ -80,8 +80,22 @@ export const jegyekFill = async () => {
 
   await setDoc(ref, {
     Datum: faker.date.recent(),
-    Diak: faker.name.fullName(),
+    Diak: "John Smith",
     Jegy: faker.random.numeric(),
-    Targy: faker.word.noun()
+    Targy: "English",
+    Torzsszam: 1
+    });
+}
+
+
+export const hianyzasFill = async () => {
+  const ref = doc(collection(firestore, "Hianyzasok"));
+
+  await setDoc(ref, {
+    Datum: faker.date.recent(),
+    Diak: "John Smith",
+    Targy: "Math",
+    Torzsszam: "1",
+    Igazolt: faker.datatype.boolean()
     });
 }

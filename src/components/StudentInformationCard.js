@@ -1,7 +1,7 @@
 import { Divider, Paper, Typography } from "@mui/material";
 import { StudentInformationRow } from "./StudentInformationRow";
 
-const keys = ["Allapot", "Anya", "Apa", "Telefon", "Varos", "Utca", "TornaFelmentes", "Vallas"];
+const keys = ["Allapot", "Anya", "Apa", "Telefon", "Helyiseg", "Utca", "TornaFelmentes", "Vallas"];
 export const StudentInformationCard = (props) => {
   return (
     <Paper sx={{flex: '1 1 content', padding: 2, margin: 5, marginLeft: 2}}>
