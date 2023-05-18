@@ -3,7 +3,7 @@ import { collection, doc, getDoc, getDocs, query, where } from "firebase/firesto
 import { firestore } from "../config/firebase";
 import { useLoaderData, useNavigation } from "react-router-dom";
 import { merge } from 'lodash';
-import { StudentProfileCard } from "../components/StudentProfileCard";
+import { ProfileCard } from "../components/ProfileCard";
 import { StudentInformationCard } from "../components/StudentInformationCard";
 import { StudentGradesCard } from "../components/StudentGradesCard";
 
@@ -17,7 +17,7 @@ export const StudentPage = () =>{
   return(
     <>
     <Box sx={{display: "flex"}}>
-      <StudentProfileCard data = {data}/>
+      <ProfileCard data = {data}/>
       <StudentInformationCard data = {data}/>
     </Box>
     <StudentGradesCard data = {data.grades} subjects = {data.subjects} absences = {data.absences} studentName={data.Nev} studentId={data.studentId}/>

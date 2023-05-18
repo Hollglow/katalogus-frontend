@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, IconButton, Stack, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, IconButton, Stack, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Box, Typography, Divider } from '@mui/material';
 import { useState } from 'react';
 import EditIcon from "@mui/icons-material/Edit"
 import AddIcon from "@mui/icons-material/Add"
@@ -8,7 +8,7 @@ import { AddAbsence, AddGrade } from '../database/DatabaseInterface';
 import { Timestamp } from 'firebase/firestore';
 
 
-export const PaginatedGradeTable = (props) => {
+export const GradeTable = (props) => {
 
   const [open, setOpen] = useState(false);
   const [chosenSubject, setChosenSubject] = useState("");
@@ -87,6 +87,15 @@ export const PaginatedGradeTable = (props) => {
   const onAbsenceDelete = (id) => {
     setAbsencesData(absencesData.filter(item => item.id !== id));
   }
+  let sum = 0;
+  let amount = 0;
+
+  const CalculateAverage = () => {
+    const res = sum / amount;
+    sum = 0;
+    amount = 0;
+    return res.toFixed(2);
+  }
 
   return (
     <>
@@ -110,12 +119,22 @@ export const PaginatedGradeTable = (props) => {
               <TableCell>
                 <Stack direction="column">
                 {gradesData.map((grade) => {
-                  return grade.Targy === subject ? <GradeRow grade = {grade} edit={editGrades[subject]} onGradeDelete={onGradeDelete}/> : null
+                  if (grade.Targy === subject) {
+                    amount++;
+                    sum += parseInt(grade.Jegy);
+                    return <GradeRow grade = {grade} edit={editGrades[subject]} onGradeDelete={onGradeDelete}/>
+                  }
                 })}
                 {editGrades[subject] &&
                   <IconButton sx={{padding: 0, width: "fit-content", margin: "0 auto"}} onClick={() => handleOpenGradeDialog(subject)}>
                     <AddIcon/>
                   </IconButton>}
+                  <Divider/>
+                  <Box sx={{ verticalAlign: "middle"}}>
+                    <Typography display="inline" sx={{fontSize: 16}}>{CalculateAverage()} </Typography>
+                    
+                    <Typography display="inline" sx={{color: "gray", fontSize: 10}}>Átlag</Typography>
+                  </Box>
                 </Stack>
               </TableCell>
               <TableCell>

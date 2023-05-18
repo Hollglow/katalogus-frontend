@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
+import { collection, doc, setDoc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { firestore } from "../config/firebase";
 import Papa from 'papaparse';
 
@@ -86,12 +86,26 @@ const tanulokFill = async (tanulo) => {
 
     });
 
-    await addDoc(collection(osztalyRef, "Statisztikak", "Statisztika", "Fiu"), {
-      Varosi: 3
+    await setDoc(doc(osztalyRef, "Statisztikak", "Statisztika", "Fiu", "Statisztika"), {
+      Varosi: 0,
+      Falusi: 0,
+      Elment: 0,
+      Erkezett: 0,
+      Halasztott: 0,
+      OsztalyIsmetlo: 0,
+      IskolaOtthagyas: 0,
+      HianyzasbolIsmetlo: 0
     });
     
-    await addDoc(collection(osztalyRef, "Statisztikak", "Statisztika", "Lany"), {
-      Falusi: 4
+    await setDoc(doc(osztalyRef, "Statisztikak", "Statisztika", "Lany", "Statisztika"), {
+      Varosi: 0,
+      Falusi: 0,
+      Elment: 0,
+      Erkezett: 0,
+      Halasztott: 0,
+      OsztalyIsmetlo: 0,
+      IskolaOtthagyas: 0,
+      HianyzasbolIsmetlo: 0
     });
   }
 }

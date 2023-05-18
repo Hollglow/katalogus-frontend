@@ -48,3 +48,9 @@ export const DeleteGrade = async (id) => {
 export const DeleteAbsence = async (id) => {
   await deleteDoc(doc(firestore, "Hianyzasok", id));
 }
+
+export const UpdateClassStatistic = async (classId, gender, key, value) => {
+  await updateDoc(doc(firestore, "Osztalyok", classId, "Statisztikak", "Statisztika", gender, "Statisztika"), {
+    [key]: value
+  })
+}
