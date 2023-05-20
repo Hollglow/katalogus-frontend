@@ -14,10 +14,10 @@ export const Navbar = () => {
     <>
     <AppBar position="static">      
         <Toolbar>
-          <Button component={RouterLink} to="/" color="secondary">Home</Button>
-          <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to="/classes" color="secondary">Classes</Button>
-          <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to="/students" color="secondary">Students</Button>
-          <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to="/upload" color="secondary">Adat Feltöltés</Button>
+          <Button component={RouterLink} to="/" color="success">Home</Button>
+          <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to="/classes" color="success">Classes</Button>
+          <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to="/students" color="success">Students</Button>
+          <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to="/upload" color="success">Adat Feltöltés</Button>
           <AuthButtons/>
         </Toolbar>
     </AppBar>

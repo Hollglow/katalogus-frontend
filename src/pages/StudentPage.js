@@ -1,4 +1,4 @@
-import { CircularProgress, Box } from "@mui/material";
+import { CircularProgress, Box, Stack } from "@mui/material";
 import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../config/firebase";
 import { useLoaderData, useNavigation } from "react-router-dom";
@@ -16,10 +16,10 @@ export const StudentPage = () =>{
   }
   return(
     <>
-    <Box sx={{display: "flex"}}>
+    <Stack direction="row" alignItems="flex-start" justifyContent="space-between" spacing={2} sx={{margin: 2}}>
       <ProfileCard data = {data}/>
       <StudentInformationCard data = {data}/>
-    </Box>
+    </Stack>
     <StudentGradesCard data = {data.grades} subjects = {data.subjects} absences = {data.absences} studentName={data.Nev} studentId={data.studentId}/>
     </>
   );
@@ -29,16 +29,16 @@ export const studentLoader = async (params) => {
   const tanuloRef = doc(firestore, "Tanulok", params.studentId);
   const gradeRef = collection(firestore, "Jegyek");
   const gradeQuery = query(gradeRef, where("Torzsszam", "==", params.studentId));
-  const subjectsRef = collection(firestore, "Tantargyak");
+  const subjectsRef = doc(firestore, "Config", "Config");
   const absencesRef = collection(firestore, "Hianyzasok");
   const absenceQuery = query(absencesRef, where("Torzsszam", "==", params.studentId))
   try {
     const tanuloSnap = await getDoc(tanuloRef);
     const tanuloInfoSnap = await getDoc(doc(tanuloRef, "Informaciok", "Informacio"));
     const studentGradeSnap = await getDocs(gradeQuery);
-    const subjects = await getDocs(subjectsRef);
+    const subjects = await getDoc(subjectsRef);
     const absences = await getDocs(absenceQuery);
-    return merge(tanuloSnap.data(), tanuloInfoSnap.data(), {grades: studentGradeSnap.docs, subjects: subjects.docs, absences: absences.docs, studentId: params.studentId});
+    return merge(tanuloSnap.data(), tanuloInfoSnap.data(), {grades: studentGradeSnap.docs, subjects: subjects.data().Tantargyak, absences: absences.docs, studentId: params.studentId});
   } catch (err) {
     console.error(err);
     return null;

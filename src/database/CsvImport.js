@@ -117,6 +117,10 @@ const beosztasFill = async(beosztas) => {
     Tanarok: arrayUnion(`${beosztas[1]}`)
   }, {merge: true});
 
+  await setDoc(doc(firestore, "Config", "Config"), {
+    Tantargyak: arrayUnion(beosztas[2])
+  }, {merge: true})
+
   const tanarokRef = doc(firestore, "Tanarok", `${beosztas[0]}`);
   const tanarSnapshot = await getDoc(tanarokRef);
 
@@ -160,4 +164,8 @@ const tanarokFill = async(tanar) => {
     Utca: tanar.Utca,
     Telefon: tanar.Telefon,
   });
+
+  await setDoc(doc(firestore, "Config", "Config"), {
+    Tanarok: arrayUnion(tanar.Név)
+  }, {merge: true})
 }

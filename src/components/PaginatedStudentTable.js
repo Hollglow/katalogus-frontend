@@ -34,7 +34,7 @@ export const PaginatedStudentTable = (props) => {
   return (
     <>
     {classHeader}
-    <TableContainer component={Paper} sx={{margin:'auto', maxWidth:'50%'}}>
+    <TableContainer component={Paper} sx={{margin: props.margin ? '' : 'auto', maxWidth:'50%', minWidth: '30%'}}>
       <Table aria-label="paginated table">
         <TableHead>
           <TableRow>

@@ -1,4 +1,4 @@
-import { Box, CircularProgress, Stack, Typography } from "@mui/material";
+import { CircularProgress, Stack } from "@mui/material";
 import { doc, getDoc } from "firebase/firestore";
 import { firestore } from "../config/firebase";
 import { useLoaderData, useNavigation } from "react-router-dom";
@@ -6,8 +6,9 @@ import { PaginatedStudentTable } from "../components/PaginatedStudentTable";
 import { ProfileCard } from "../components/ProfileCard";
 import { merge } from "lodash";
 import { ClassStatisticsTable } from "../components/ClassStatisticsTable";
+import { ClassTeacherTable } from "../components/ClassTeacherTable";
 
-export const DataPage = () =>{
+export const ClassPage = () =>{
   const data = useLoaderData();
   const navigation = useNavigation();
 
@@ -16,9 +17,10 @@ export const DataPage = () =>{
   }
   return(
     <>
-    <Stack direction="row">
+    <Stack direction="row" alignItems="flex-start" justifyContent="space-between" spacing={2} sx={{margin: 2}}>
       <ProfileCard data = {{Nev: data.Osztalyfonok}} osztalyfonok={true}/>
-      <PaginatedStudentTable data={data.Diakok}/>
+      <PaginatedStudentTable data={data.Diakok} margin = {true}/>
+      <ClassTeacherTable data = {data}/>
     </Stack>
     <ClassStatisticsTable male={data.male} female={data.female} />
     </>

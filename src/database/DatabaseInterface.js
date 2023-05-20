@@ -1,4 +1,4 @@
-import { Timestamp, addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
+import { Timestamp, addDoc, collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
 import { firestore } from "../config/firebase"
 
 export const UpdateStudentInformation = async (key, value, id) => {
@@ -53,4 +53,16 @@ export const UpdateClassStatistic = async (classId, gender, key, value) => {
   await updateDoc(doc(firestore, "Osztalyok", classId, "Statisztikak", "Statisztika", gender, "Statisztika"), {
     [key]: value
   })
+}
+
+export const GetAllTeachers = async () => {
+  const ref = doc(firestore, "Config", "Config");
+  const teachersSnapshot = await getDoc(ref);
+  return teachersSnapshot;
+}
+
+export const GetAllSubjectsAndTeachers = async () => {
+  const ref = doc(firestore, "Config", "Config");
+  const snapshot = await getDoc(ref);
+  return snapshot;
 }

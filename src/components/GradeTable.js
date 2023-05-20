@@ -54,9 +54,7 @@ export const GradeTable = (props) => {
   const data = props.data.map((doc) => {
     return {...doc.data(), id:doc.id};
   })
-  const subjects = props.subjects.map((subject) => {
-    return subject.id;
-  })
+  const subjects = props.subjects;
   const absences = props.absences.map((absence) => {
     return {...absence.data(), id:absence.id};
   })
@@ -91,6 +89,9 @@ export const GradeTable = (props) => {
   let amount = 0;
 
   const CalculateAverage = () => {
+    if (amount === 0) {
+      return 0;
+    }
     const res = sum / amount;
     sum = 0;
     amount = 0;
@@ -124,6 +125,7 @@ export const GradeTable = (props) => {
                     sum += parseInt(grade.Jegy);
                     return <GradeRow grade = {grade} edit={editGrades[subject]} onGradeDelete={onGradeDelete}/>
                   }
+                  return null
                 })}
                 {editGrades[subject] &&
                   <IconButton sx={{padding: 0, width: "fit-content", margin: "0 auto"}} onClick={() => handleOpenGradeDialog(subject)}>

@@ -1,11 +1,11 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from "@mui/material";
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { ClassStatisticsTableRow } from "./ClassStatisticsTableRow";
 
 export const ClassStatisticsTable = (props) => {
 
   const statisticDictionary = {
     Varosi: "Városi",
-    Falusi: "Falusi",
+    Falusi: "Vidéki",
     Elment: "Elment",
     Erkezett: "Érkezett",
     Halasztott: "Évet Halasztott",
