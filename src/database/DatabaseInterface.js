@@ -14,9 +14,9 @@ export const GetAllClasses = async () => {
   return classesSnapshot;
 }
 
-export const AddGrade = async (subject, grade, studentId, studentName) => {
+export const AddGrade = async (subject, grade, studentId, studentName, date) => {
  const result = await addDoc(collection(firestore, "Jegyek"), {
-    Datum: Timestamp.fromDate(new Date()),
+    Datum: Timestamp.fromDate(date),
     Diak: studentName,
     Jegy: grade,
     Targy: subject,
@@ -25,9 +25,9 @@ export const AddGrade = async (subject, grade, studentId, studentName) => {
   return result;
 }
 
-export const AddAbsence = async (subject, studentId, studentName) => {
+export const AddAbsence = async (subject, studentId, studentName, date) => {
   const result = await addDoc(collection(firestore, "Hianyzasok"), {
-     Datum: Timestamp.fromDate(new Date()),
+     Datum: Timestamp.fromDate(date),
      Diak: studentName,
      Igazolt: false,
      Targy: subject,

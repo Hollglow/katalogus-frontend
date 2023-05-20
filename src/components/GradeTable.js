@@ -6,16 +6,24 @@ import { GradeRow } from './GradeRow';
 import { AbsencesRow } from './AbsencesRow';
 import { AddAbsence, AddGrade } from '../database/DatabaseInterface';
 import { Timestamp } from 'firebase/firestore';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
 
 export const GradeTable = (props) => {
 
   const [open, setOpen] = useState(false);
+  const [openAbsence, setOpenAbsence] = useState(false);
   const [chosenSubject, setChosenSubject] = useState("");
   const [addedGrade, setAddedGrade] = useState(0);
+  const [addedDate, setAddedDate] = useState(new Date());
 
   const handleCloseGradeDialog = () => {
     setOpen(false);
+  }
+  const handleCloseAbsenceDialog = () => {
+    setOpenAbsence(false);
   }
 
   const handleOpenGradeDialog = (subject) => {
@@ -23,12 +31,17 @@ export const GradeTable = (props) => {
     setChosenSubject(subject)
   }
 
+  const handleOpenAbsenceDialog = (subject) => {
+    setOpenAbsence(true);
+    setChosenSubject(subject);
+  }
+
   
   const handleAddGrade = async () => {
     handleCloseGradeDialog();
-    const result = await AddGrade(chosenSubject, addedGrade, props.studentId, props.studentName);
+    const result = await AddGrade(chosenSubject, addedGrade, props.studentId, props.studentName, addedDate);
     setGradesData(gradesData.concat([{
-      Datum: Timestamp.fromDate(new Date()),
+      Datum: Timestamp.fromDate(addedDate),
       Diak: props.studentName,
       Jegy: addedGrade,
       Targy: chosenSubject,
@@ -38,17 +51,18 @@ export const GradeTable = (props) => {
     console.log("added grade");
   }
 
-  const handleAddAbsence = async (subject) => {
-    const result = await AddAbsence(subject, props.studentId, props.studentName);
+  const handleAddAbsence = async () => {
+    const result = await AddAbsence(chosenSubject, props.studentId, props.studentName, addedDate);
     setAbsencesData(absencesData.concat([{
-      Datum: Timestamp.fromDate(new Date()),
+      Datum: Timestamp.fromDate(addedDate),
       Diak: props.studentName,
       Igazolt: false,
-      Targy: subject,
+      Targy: chosenSubject,
       Torzsszam: props.studentId,
       id: result.id
     }]))
     console.log("added absence");
+    setOpenAbsence(false);
   }
 
   const data = props.data.map((doc) => {
@@ -151,7 +165,7 @@ export const GradeTable = (props) => {
                   return absence.Targy === subject ? <AbsencesRow absence = {absence} edit={editAbsences[subject]}  onAbsenceDelete={onAbsenceDelete}/> : null
                 })}
                 {editAbsences[subject] &&
-                  <IconButton sx={{padding: 0, width: "fit-content", margin: "0 auto"}} onClick={() => handleAddAbsence(subject)}>
+                  <IconButton sx={{padding: 0, width: "fit-content", margin: "0 auto"}} onClick={() => handleOpenAbsenceDialog(subject)}>
                     <AddIcon/>
                   </IconButton>}
                 </Stack>
@@ -192,10 +206,36 @@ export const GradeTable = (props) => {
             variant="standard"
             onChange={(event) => {setAddedGrade(event.target.value)}}
           />
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker sx={{margin: 2}}
+              label="Dátum"
+              value={addedDate}
+              onChange={(newValue) => setAddedDate(newValue)}
+            />
+          </LocalizationProvider>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseGradeDialog}>Mégse</Button>
           <Button onClick={handleAddGrade}>Tovább</Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={openAbsence} onClose={handleCloseAbsenceDialog}>
+        <DialogTitle>Hiányzás Hozzáadása</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Töltse ki az alábbi adatot...
+          </DialogContentText>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker sx={{margin: 2}}
+              label="Dátum"
+              value={addedDate}
+              onChange={(newValue) => setAddedDate(newValue)}
+            />
+          </LocalizationProvider>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseAbsenceDialog}>Mégse</Button>
+          <Button onClick={handleAddAbsence}>Tovább</Button>
         </DialogActions>
       </Dialog>
     </>
