@@ -27,6 +27,11 @@ export const UserProfileMenu = ({user}) =>{
     }
   };
 
+  user.getIdTokenResult()
+  .then((token) => {
+    console.log(token);
+    //IMPORTANT, THIS IS HOW WE ACCESS USER ACCESS RIGHTS
+  })
   return(
     <>
         <Tooltip title="Open settings">

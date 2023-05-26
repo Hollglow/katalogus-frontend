@@ -17,8 +17,7 @@ export const AuthButtons = () =>{
   if(!userLogged){
     return(
       <>
-      <Button component={RouterLink} to="/sign-in" color="secondary">Sign In</Button>
-      <Button component={RouterLink} to="/sign-up" color="secondary">Sign Up</Button>
+      <Button component={RouterLink} to="/sign-in" color="secondary">Bejelentkezés</Button>
       </>
     )
   } else {

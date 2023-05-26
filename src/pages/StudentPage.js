@@ -1,4 +1,4 @@
-import { CircularProgress, Box, Stack } from "@mui/material";
+import { CircularProgress, Stack } from "@mui/material";
 import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../config/firebase";
 import { useLoaderData, useNavigation } from "react-router-dom";
@@ -29,16 +29,16 @@ export const studentLoader = async (params) => {
   const tanuloRef = doc(firestore, "Tanulok", params.studentId);
   const gradeRef = collection(firestore, "Jegyek");
   const gradeQuery = query(gradeRef, where("Torzsszam", "==", params.studentId));
-  const subjectsRef = doc(firestore, "Config", "Config");
   const absencesRef = collection(firestore, "Hianyzasok");
   const absenceQuery = query(absencesRef, where("Torzsszam", "==", params.studentId))
   try {
     const tanuloSnap = await getDoc(tanuloRef);
+    const subjectsRef = doc(firestore, "Osztalyok", tanuloSnap.data().Osztaly);
     const tanuloInfoSnap = await getDoc(doc(tanuloRef, "Informaciok", "Informacio"));
     const studentGradeSnap = await getDocs(gradeQuery);
     const subjects = await getDoc(subjectsRef);
     const absences = await getDocs(absenceQuery);
-    return merge(tanuloSnap.data(), tanuloInfoSnap.data(), {grades: studentGradeSnap.docs, subjects: subjects.data().Tantargyak, absences: absences.docs, studentId: params.studentId});
+    return merge(tanuloSnap.data(), tanuloInfoSnap.data(), {grades: studentGradeSnap.docs, subjects: subjects.data().Tanarok, absences: absences.docs, studentId: params.studentId});
   } catch (err) {
     console.error(err);
     return null;

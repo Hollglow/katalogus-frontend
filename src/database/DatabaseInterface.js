@@ -1,4 +1,4 @@
-import { Timestamp, addDoc, collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from "firebase/firestore";
+import { Timestamp, addDoc, collection, deleteDoc, doc, getDoc, getDocs, increment, updateDoc } from "firebase/firestore";
 import { firestore } from "../config/firebase"
 
 export const UpdateStudentInformation = async (key, value, id) => {
@@ -65,4 +65,18 @@ export const GetAllSubjectsAndTeachers = async () => {
   const ref = doc(firestore, "Config", "Config");
   const snapshot = await getDoc(ref);
   return snapshot;
+}
+
+export const IncrementStudentStatistic = async (clas, gender, key) => {
+  const ref = doc(firestore, "Osztalyok", clas, "Statisztikak", "Statisztika", gender, "Statisztika");
+  await updateDoc(ref, {
+    [`${key}`]: increment(1)
+  })
+}
+
+export const DecrementStudentStatistic = async (clas, gender, key) => {
+  const ref = doc(firestore, "Osztalyok", clas, "Statisztikak", "Statisztika", gender, "Statisztika");
+  await updateDoc(ref, {
+    [`${key}`]: increment(-1)
+  })
 }

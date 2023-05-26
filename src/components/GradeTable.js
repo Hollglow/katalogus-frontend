@@ -68,7 +68,7 @@ export const GradeTable = (props) => {
   const data = props.data.map((doc) => {
     return {...doc.data(), id:doc.id};
   })
-  const subjects = props.subjects;
+  const subjects = Object.keys(props.subjects);
   const absences = props.absences.map((absence) => {
     return {...absence.data(), id:absence.id};
   })
@@ -190,7 +190,7 @@ export const GradeTable = (props) => {
             Töltse ki az alábbi adatokat...
           </DialogContentText>
           <TextField
-            disabled="true"
+            disabled={true}
             margin="dense"
             label="Tantárgy"
             type="text"

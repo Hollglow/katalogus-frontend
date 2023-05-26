@@ -25,6 +25,8 @@ export const StudentInformationRow = (props) => {
     setEditing(!editing);
   }
 
+  console.log(typeof props.data.value)
+
   const editableComponent = editing ? <><TextField sx={{display: 'inline-block'}} label="Edit" variant="standard" defaultValue={props.data.value} onChange={(event) => {setEdit(event.target.value)}}></TextField> 
                                         <IconButton sx={{display:"inline-block"}} aria-label="check" onClick={handleEditSend}>
                                           <CheckIcon/>
