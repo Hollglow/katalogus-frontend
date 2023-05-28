@@ -10,10 +10,11 @@ export const tanulokFillExcel = async (e) => {
   const csvFile = e.target.files[0];
   const tanulok = await parseCsv(csvFile, true);
   
+  let tanuloList = [];
   for (const tanulo of tanulok.data) {
-    await tanulokFill(tanulo);
+    tanuloList.push(await tanulokFill(tanulo));
   };
-  
+  console.log("diakok", tanuloList);
 }
 
 
@@ -133,8 +134,28 @@ const tanulokFill = async (tanulo) => {
     IskolaOtthagyas: tanulo['Iskola Otthagyás'] ? increment(1) : increment(0),
     HianyzasbolIsmetlo: tanulo['Hiányzás Miatt Ismétlő'] ? increment(1) : increment(0)
   })
+
+  const uid = GenerateStudentUid(tanulo.Név, tanulo.Törzsszám);
+
+  const salt = GenerateSalt();
   
+  const pass = GeneratePassword();
+  
+  const hash = GenerateHash(pass, salt);
+  
+  await setDoc(doc(firestore, "Users", uid), {
+    Roles: {
+      admin: false,
+      tanar: false,
+      diak: true,
+      osztaly: tanulo.Osztály
+    },
+    Salt: salt,
+    Hash: hash
+  })
+  return {uid: uid, pass: pass};
 }
+
 export const test = async () => {
 
 }
@@ -161,7 +182,11 @@ const beosztasFill = async(beosztas) => {
         await updateDoc(tanar.ref, {
           [`Tantargy.${beosztas[iter]}`]: arrayUnion(beosztas[2])
         })
+        await updateDoc(doc(firestore, "Users", tanar.data().Uid), {
+          'Roles.osztaly': arrayUnion(beosztas[iter])
+        }, {merge: true})
       }
+
     }
 
   }
@@ -176,16 +201,21 @@ const beosztasFill = async(beosztas) => {
     })
   }
 
+
+
 }
 
 const tanarokFill = async(tanar) => {
   const ref = collection(firestore, "Tanarok");
+  
+  const uid = GenerateTeacherUid(tanar.Név);
 
   const tanarRef = await addDoc(ref, {
     Id: tanar.Törzsszám,
     Nev: tanar.Név,
     Osztalyfonoke: tanar.Osztályfőnöke,
-    Tantargy: {}
+    Tantargy: {},
+    Uid: uid
   });
 
   const osztalyRef = doc(firestore, "Osztalyok", tanar.Osztályfőnöke);
@@ -204,7 +234,6 @@ const tanarokFill = async(tanar) => {
   }, {merge: true})
 
 
-  const uid = GenerateTeacherUid(tanar.Név);
 
   const salt = GenerateSalt();
   
@@ -214,17 +243,22 @@ const tanarokFill = async(tanar) => {
   
   //console.log(uid, salt, pass, hash);
   await setDoc(doc(firestore, "Users", uid), {
-    roles: {
+    Roles: {
       admin: false,
       tanar: true,
-      diak: false
+      diak: false,
+      osztalyfonoke: tanar.Osztályfőnöke,
     },
-    salt: salt,
-    hash: hash
+    Salt: salt,
+    Hash: hash
   })
   return {uid: uid, pass: pass};
 }
 
 const GenerateTeacherUid = (name) => {
   return "edu_" + name.split(/\s/).reduce((response, word) => response += word.slice(0,1), '') + "_" + faker.random.alpha(4);
+}
+
+const GenerateStudentUid = (name, id) => {
+  return name.split(/\s/).reduce((response, word) => response += word.slice(0,1), '') + id;
 }
