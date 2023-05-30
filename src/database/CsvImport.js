@@ -148,10 +148,11 @@ const tanulokFill = async (tanulo) => {
       admin: false,
       tanar: false,
       diak: true,
-      osztaly: tanulo.Osztály
+      osztaly: tanulo.Osztály,
+      torzsszam: tanulo.Törzsszám 
     },
     Salt: salt,
-    Hash: hash
+    Hash: hash,
   })
   return {uid: uid, pass: pass};
 }
@@ -183,7 +184,7 @@ const beosztasFill = async(beosztas) => {
           [`Tantargy.${beosztas[iter]}`]: arrayUnion(beosztas[2])
         })
         await updateDoc(doc(firestore, "Users", tanar.data().Uid), {
-          'Roles.osztaly': arrayUnion(beosztas[iter])
+          [`Roles.${beosztas[iter]}`]: true
         }, {merge: true})
       }
 

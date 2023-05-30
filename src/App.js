@@ -8,6 +8,9 @@ import { classLoader } from './pages/ClassPage';
 import { StudentPage, studentLoader } from './pages/StudentPage';
 import { AllStudentPage, allStudentLoader } from './pages/AllStudentPage';
 import { UploadPage } from './pages/UploadPage';
+import PermissionProvider from './components/PermissionProvider';
+import { useEffect, useState } from 'react';
+import { auth } from './config/firebase';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -26,9 +29,33 @@ const router = createBrowserRouter(
 )
 
 function App() {
+  const [user, setUser] = useState(async () => {
+    const user = auth.currentUser;
+    if(user){
+      const token = await user.getIdTokenResult();
+      return token;
+    } else {
+      return user;
+    }
+  });
+
+  useEffect(() => {
+    auth.onAuthStateChanged( async (firebaseUser) => {
+      if(firebaseUser){
+        const claims = await firebaseUser.getIdTokenResult();
+        setUser(claims);
+      } else {
+        setUser(null);
+      }
+    });
+  }, []);
+  
   return (
+    <PermissionProvider permissions={user ? user.claims : {loggedOut: true}}>
       <RouterProvider router={router}/>
+    </PermissionProvider>
   );
+  
 }
 
 export default App;
