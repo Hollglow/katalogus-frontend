@@ -4,11 +4,14 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { auth } from '../config/firebase';
 import { signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 
 
 export const UserProfileMenu = ({user}) =>{
 
   const [anchorElUser, setAnchorElUser] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -22,16 +25,13 @@ export const UserProfileMenu = ({user}) =>{
   const logOut = async () => {
     try{
       await signOut(auth);
+      navigate("/");
+
     } catch(err) {
       console.error(err)
     }
   };
 
-  user.getIdTokenResult()
-  .then((token) => {
-    console.log(token);
-    //IMPORTANT, THIS IS HOW WE ACCESS USER ACCESS RIGHTS
-  })
   return(
     <>
         <Tooltip title="Open settings">

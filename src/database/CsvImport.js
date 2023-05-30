@@ -14,7 +14,17 @@ export const tanulokFillExcel = async (e) => {
   for (const tanulo of tanulok.data) {
     tanuloList.push(await tanulokFill(tanulo));
   };
-  console.log("diakok", tanuloList);
+  const file = new Blob([JSON.stringify(tanuloList)], {
+    type: 'application/json',
+  });
+  const url = window.URL.createObjectURL(file);
+  const a = document.createElement('a');
+  a.setAttribute('hidden', '');
+  a.setAttribute('href', url);
+  a.setAttribute('download', 'download.json');
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 
@@ -22,11 +32,21 @@ export const tanarokFillExcel = async (e) => {
   const csvFile = e.target.files[0];
   const tanarok = await parseCsv(csvFile, true);
   
-  let userList = [];
+  let tanarList = [];
   for (const tanar of tanarok.data) {
-    userList.push(await tanarokFill(tanar));
+    tanarList.push(await tanarokFill(tanar));
   };
-  console.log("please", userList);
+  const file = new Blob([JSON.stringify(tanarList)], {
+    type: 'application/json',
+  });
+  const url = window.URL.createObjectURL(file);
+  const a = document.createElement('a');
+  a.setAttribute('hidden', '');
+  a.setAttribute('href', url);
+  a.setAttribute('download', 'download.json');
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }
 
 
@@ -154,7 +174,7 @@ const tanulokFill = async (tanulo) => {
     Salt: salt,
     Hash: hash,
   })
-  return {uid: uid, pass: pass};
+  return {nev: tanulo.Név, uid: uid, pass: pass};
 }
 
 export const test = async () => {
@@ -253,7 +273,7 @@ const tanarokFill = async(tanar) => {
     Salt: salt,
     Hash: hash
   })
-  return {uid: uid, pass: pass};
+  return {nev: tanar.Név ,uid: uid, pass: pass};
 }
 
 const GenerateTeacherUid = (name) => {

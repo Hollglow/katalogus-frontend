@@ -2,6 +2,9 @@ import PermissionContext from "./PermissionContext";
 
 const PermissionProvider = ({permissions, children}) => {
   const isAllowedTo = (permission) => {
+    if(!permissions){
+      return false;
+    }
     if (permissions.admin){
       return true;
     }

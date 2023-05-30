@@ -17,11 +17,11 @@ export const Navbar = () => {
     <>
     <AppBar position="static">      
         <Toolbar>
+            <Button component={RouterLink} to="/test" color="success">Test</Button>
           <Restricted to={["diak"]}>
-            <Button component={RouterLink} to="/" color="success">Home</Button>
-            <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to={`/students/${permissions.torzsszam}`} color="success">Saját Oldal</Button>
+            {permissions && <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to={`/students/${permissions.torzsszam}`} color="success">Saját Oldal</Button>}
           </Restricted>
-          <Restricted to={["tanar", "diak"]}>
+          <Restricted to={["tanar"]}>
             <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to="/classes" color="success">Osztályok</Button>
             <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to="/students" color="success">Diákok</Button>
           </Restricted>

@@ -1,5 +1,4 @@
 import { SignInPage } from './pages/SignInPage';
-import { SignUpPage } from './pages/SignUpPage';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { ClassPage } from './pages/ClassPage';
@@ -11,13 +10,14 @@ import { UploadPage } from './pages/UploadPage';
 import PermissionProvider from './components/PermissionProvider';
 import { useEffect, useState } from 'react';
 import { auth } from './config/firebase';
+import { TestPage } from './pages/TestPage';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path = "/" element = {<Navbar/>}>
       <Route index element = {<WelcomePage/>}/>
+      <Route path="/test" element = {<TestPage/>}/>
       <Route path="/sign-in" element = {<SignInPage/>}/>
-      <Route path="/sign-up" element = {<SignUpPage/>}/>
       <Route path="/classes" element = {<ClassPage/>} loader={classLoader}/>
       <Route path="/classes/:classId" element = {<ClassPage/>} loader={({params}) => classLoader(params)}/>
       <Route path="/students/:studentId" element = {<StudentPage/>} loader={({params}) => studentLoader(params)}/>
@@ -49,7 +49,7 @@ function App() {
       }
     });
   }, []);
-  
+  console.log("user", user);
   return (
     <PermissionProvider permissions={user ? user.claims : {loggedOut: true}}>
       <RouterProvider router={router}/>

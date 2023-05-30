@@ -1,6 +1,7 @@
 import { Checkbox, FormControlLabel } from "@mui/material";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { DecrementStudentStatistic, IncrementStudentStatistic, UpdateStudentInformation } from "../database/DatabaseInterface";
+import PermissionContext from "./PermissionContext";
 
 export const StudentCheckboxRow = (props) => {
 
@@ -15,8 +16,9 @@ export const StudentCheckboxRow = (props) => {
     }
   }
 
+  const {isAllowedTo} = useContext(PermissionContext);
   const [confirmed, setConfirmed] = useState(props.data.value);
   return (
-    <FormControlLabel display="inline" sx={{fontSize: 16}} control={<Checkbox checked={confirmed} inputProps={{ 'aria-label': 'controlled' }} onChange={handleToggle} name= {props.data.key} />}/> 
+    <FormControlLabel disabled={!isAllowedTo(["tanar"])} display="inline" sx={{fontSize: 16}} control={<Checkbox checked={confirmed} inputProps={{ 'aria-label': 'controlled' }} onChange={handleToggle} name= {props.data.key} />}/> 
   );
 }
