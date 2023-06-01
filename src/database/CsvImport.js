@@ -1,4 +1,4 @@
-import { collection, doc, setDoc, getDoc, updateDoc, arrayUnion, increment, addDoc, query, where, getDocs } from "firebase/firestore";
+import { collection, doc, setDoc, getDoc, updateDoc, arrayUnion, increment } from "firebase/firestore";
 import { firestore } from "../config/firebase";
 import Papa from 'papaparse';
 import { faker } from '@faker-js/faker';
@@ -110,7 +110,11 @@ const tanulokFill = async (tanulo) => {
     await updateDoc(osztalyRef, {
       [`Diakok.${tanulo.Törzsszám}`]: tanulo.Név
     })
+    await setDoc(doc(firestore, "Config", "Osztalyok"), {
+      Osztalyok: arrayUnion(tanulo.Osztály),
+    }, {merge: true})
   }
+
   else {
     await setDoc(osztalyRef, {
       Diakok: {[`${tanulo.Törzsszám}`]: tanulo.Név} 
@@ -192,22 +196,18 @@ const beosztasFill = async(beosztas) => {
     Tantargyak: arrayUnion(beosztas[2])
   }, {merge: true})
 
-  const tanarokRef = collection(firestore, "Tanarok");
-  const q = query(tanarokRef, where("Id", "==", `${beosztas[0]}`));
-  const tanarSnapshot = await getDocs(q);
+  const tanarokRef = doc(firestore, "Tanarok", beosztas[0]);
+  const tanarSnapshot = await getDoc(tanarokRef);
 
   let iter = 3;
-  for (const tanar of tanarSnapshot.docs) {
-    if (tanar.data()){
-      for (iter = 3; iter < beosztas.length; iter++) {
-        await updateDoc(tanar.ref, {
-          [`Tantargy.${beosztas[iter]}`]: arrayUnion(beosztas[2])
-        })
-        await updateDoc(doc(firestore, "Users", tanar.data().Uid), {
-          [`Roles.${beosztas[iter]}`]: true
-        }, {merge: true})
-      }
-
+  if (tanarSnapshot.data()){
+    for (iter = 3; iter < beosztas.length; iter++) {
+      await updateDoc(tanarokRef, {
+        [`Tantargy.${beosztas[iter]}`]: arrayUnion(beosztas[2])
+      })
+      await updateDoc(doc(firestore, "Users", tanarSnapshot.data().Uid), {
+        [`Roles.${beosztas[iter]}`]: true
+      }, {merge: true})
     }
 
   }
@@ -227,12 +227,11 @@ const beosztasFill = async(beosztas) => {
 }
 
 const tanarokFill = async(tanar) => {
-  const ref = collection(firestore, "Tanarok");
+  const ref = doc(firestore, "Tanarok", tanar.Törzsszám);
   
   const uid = GenerateTeacherUid(tanar.Név);
 
-  const tanarRef = await addDoc(ref, {
-    Id: tanar.Törzsszám,
+  await setDoc(ref, {
     Nev: tanar.Név,
     Osztalyfonoke: tanar.Osztályfőnöke,
     Tantargy: {},
@@ -244,7 +243,7 @@ const tanarokFill = async(tanar) => {
     Osztalyfonok: tanar.Név
   });
 
-  await setDoc(doc(tanarRef, "Informaciok", "Informacio"),{
+  await setDoc(doc(ref, "Informaciok", "Informacio"),{
     Helyiseg: tanar.Helyiség,
     Utca: tanar.Utca,
     Telefon: tanar.Telefon,
@@ -269,6 +268,7 @@ const tanarokFill = async(tanar) => {
       tanar: true,
       diak: false,
       osztalyfonoke: tanar.Osztályfőnöke,
+      torzsszam: tanar.Törzsszám
     },
     Salt: salt,
     Hash: hash

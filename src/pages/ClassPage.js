@@ -1,7 +1,7 @@
 import { CircularProgress, Stack } from "@mui/material";
 import { doc, getDoc } from "firebase/firestore";
 import { firestore } from "../config/firebase";
-import { useLoaderData, useNavigation } from "react-router-dom";
+import { redirect, useLoaderData, useNavigation } from "react-router-dom";
 import { PaginatedStudentTable } from "../components/PaginatedStudentTable";
 import { ProfileCard } from "../components/ProfileCard";
 import { merge } from "lodash";
@@ -40,7 +40,7 @@ export const classLoader = async (params) => {
     return merge(oszyalySnap.data(), {male: maleSnap.data()}, {female: femaleSnap.data()});
   } catch (err) {
     console.error(err);
-    return null;
+    return redirect("/error");
   }
   
   };

@@ -22,7 +22,8 @@ export const Navbar = () => {
             {permissions && <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to={`/students/${permissions.torzsszam}`} color="success">Saját Oldal</Button>}
           </Restricted>
           <Restricted to={["tanar"]}>
-            <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to="/classes" color="success">Osztályok</Button>
+            {permissions && <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to={`/classes/${permissions.osztalyfonoke}`} color="success">Osztályom</Button>}
+            <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to='/classes' color="success">Osztályok</Button>
             <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to="/students" color="success">Diákok</Button>
           </Restricted>
 

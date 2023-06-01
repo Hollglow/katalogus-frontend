@@ -1,7 +1,7 @@
 import { CircularProgress, Stack } from "@mui/material";
 import { collection, doc, getDoc, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../config/firebase";
-import { useLoaderData, useNavigation } from "react-router-dom";
+import { redirect, useLoaderData, useNavigation } from "react-router-dom";
 import { merge } from 'lodash';
 import { ProfileCard } from "../components/ProfileCard";
 import { StudentInformationCard } from "../components/StudentInformationCard";
@@ -25,23 +25,29 @@ export const StudentPage = () =>{
   );
 }
 
-export const studentLoader = async (params) => {
+export const studentLoader = async (params, claims) => {
   const tanuloRef = doc(firestore, "Tanulok", params.studentId);
   const gradeRef = collection(firestore, "Jegyek");
-  const gradeQuery = query(gradeRef, where("Torzsszam", "==", params.studentId));
   const absencesRef = collection(firestore, "Hianyzasok");
-  const absenceQuery = query(absencesRef, where("Torzsszam", "==", params.studentId))
   try {
     const tanuloSnap = await getDoc(tanuloRef);
+    let gradeQuery = query(gradeRef, where("Torzsszam", "==", params.studentId));
+    let absenceQuery = query(absencesRef, where("Torzsszam", "==", params.studentId))
+    if(claims && claims.tanar) {
+      const tanarSnapshot = await getDoc(doc(firestore, "Tanarok", claims.torzsszam));
+      gradeQuery = query(gradeQuery, where("Targy", "in", tanarSnapshot.data().Tantargy[tanuloSnap.data().Osztaly]));
+      absenceQuery = query(absenceQuery, where("Targy", "in", tanarSnapshot.data().Tantargy[tanuloSnap.data().Osztaly]));
+    }
     const subjectsRef = doc(firestore, "Osztalyok", tanuloSnap.data().Osztaly);
     const tanuloInfoSnap = await getDoc(doc(tanuloRef, "Informaciok", "Informacio"));
     const studentGradeSnap = await getDocs(gradeQuery);
     const subjects = await getDoc(subjectsRef);
     const absences = await getDocs(absenceQuery);
+    console.log("I AM HEREE");
     return merge(tanuloSnap.data(), tanuloInfoSnap.data(), {grades: studentGradeSnap.docs, subjects: subjects.data().Tanarok, absences: absences.docs, studentId: params.studentId});
   } catch (err) {
     console.error(err);
-    return null;
+    return redirect("/error");
   }
   
   };

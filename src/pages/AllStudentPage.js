@@ -1,7 +1,7 @@
 import { CircularProgress, Stack } from "@mui/material";
 import { collection, getDocs } from "firebase/firestore";
 import { firestore } from "../config/firebase";
-import { useLoaderData, useNavigation } from "react-router-dom";
+import { redirect, useLoaderData, useNavigation } from "react-router-dom";
 import { SearchBar } from "../components/SearchBar";
 import { useState } from "react";
 import { ClassSelector } from "../components/ClassSelector";
@@ -13,7 +13,7 @@ export const AllStudentPage = () =>{
   const navigation = useNavigation();
   const [searchValue, setSearchValue] = useState("");
   const [classValue, setClassValue] = useState("");
-
+  
   if (navigation.state === "loading") {
     return <CircularProgress />;
   }
@@ -40,7 +40,7 @@ export const allStudentLoader = async () => {
     return osztalySnap;
   } catch (err) {
     console.error(err);
-    return null;
+    return redirect("/error");
   }
   
   };

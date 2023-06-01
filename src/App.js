@@ -11,22 +11,9 @@ import PermissionProvider from './components/PermissionProvider';
 import { useEffect, useState } from 'react';
 import { auth } from './config/firebase';
 import { TestPage } from './pages/TestPage';
+import { ErrorPage } from './pages/ErrorPage';
+import { ClassesPage, classesLoader } from './pages/ClassesPage';
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route path = "/" element = {<Navbar/>}>
-      <Route index element = {<WelcomePage/>}/>
-      <Route path="/test" element = {<TestPage/>}/>
-      <Route path="/sign-in" element = {<SignInPage/>}/>
-      <Route path="/classes" element = {<ClassPage/>} loader={classLoader}/>
-      <Route path="/classes/:classId" element = {<ClassPage/>} loader={({params}) => classLoader(params)}/>
-      <Route path="/students/:studentId" element = {<StudentPage/>} loader={({params}) => studentLoader(params)}/>
-      <Route path="/students" element = {<AllStudentPage/>} loader={allStudentLoader}/>
-      <Route path="/upload" element = {<UploadPage/>} />
-
-    </Route>
-  )
-)
 
 function App() {
   const [user, setUser] = useState(async () => {
@@ -38,7 +25,7 @@ function App() {
       return user;
     }
   });
-
+  
   useEffect(() => {
     auth.onAuthStateChanged( async (firebaseUser) => {
       if(firebaseUser){
@@ -50,6 +37,22 @@ function App() {
     });
   }, []);
   console.log("user", user);
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path = "/" element = {<Navbar/>}>
+        <Route index element = {<WelcomePage/>}/>
+        <Route path="/test" element = {<TestPage/>}/>
+        <Route path="/sign-in" element = {<SignInPage/>}/>
+        <Route path="/classes" element = {<ClassesPage/>} loader={classesLoader}/>
+        <Route path="/classes/:classId" element = {<ClassPage/>} loader={({params}) => classLoader(params)}/>
+        <Route path="/students/:studentId" element = {<StudentPage/>} loader={({params}) => studentLoader(params, user.claims)}/>
+        <Route path="/students" element = {<AllStudentPage/>} loader={allStudentLoader}/>
+        <Route path="/upload" element = {<UploadPage/>} />
+        <Route path="/error" element = {<ErrorPage/>} />
+  
+      </Route>
+    )
+  )
   return (
     <PermissionProvider permissions={user ? user.claims : {loggedOut: true}}>
       <RouterProvider router={router}/>
