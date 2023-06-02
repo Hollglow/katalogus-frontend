@@ -1,5 +1,5 @@
 import { CircularProgress, Stack } from "@mui/material";
-import { collection, getDocs } from "firebase/firestore";
+import { FieldPath, collection, doc, getDoc, getDocs, or, query, where } from "firebase/firestore";
 import { firestore } from "../config/firebase";
 import { redirect, useLoaderData, useNavigation } from "react-router-dom";
 import { SearchBar } from "../components/SearchBar";
@@ -33,10 +33,21 @@ export const AllStudentPage = () =>{
   );
 }
 
-export const allStudentLoader = async () => {
-  const ref = collection(firestore, "Osztalyok");
+export const allStudentLoader = async (claims) => {
+  let ref = collection(firestore, "Osztalyok");
+  if(claims && claims.tanar && !claims.admin) {
+    let keys = Object.keys(claims);
+    const osztalyok = await getDoc(doc(firestore, "Config", "Osztalyok"));
+    keys = osztalyok.data().Osztalyok.filter(element => keys.includes(element));
+    console.log(keys, claims);
+    ref = query(ref, or(
+      where('__name__', "in", keys),
+      where('__name__', "==", claims.osztalyfonoke),
+    ));
+  }
   try {
     const osztalySnap = await getDocs(ref);
+    console.log(osztalySnap.docs);
     return osztalySnap;
   } catch (err) {
     console.error(err);

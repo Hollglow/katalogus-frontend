@@ -9,7 +9,7 @@ export const ClassesTable = (props) => {
     navigate(`/classes/${id}`)
   }
   const {permissions} = useContext(PermissionContext);
-  const filtered = props.data.filter(element => permissions[element] || permissions.osztalyfonoke === element);
+  const filtered = permissions.admin ? props.data : props.data.filter(element => permissions[element] || permissions.osztalyfonoke === element);
   return (
     <TableContainer component={Paper} sx={{margin:'auto', maxWidth:'30%'}}>
       <Table aria-label="paginated table">

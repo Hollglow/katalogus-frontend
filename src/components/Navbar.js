@@ -19,10 +19,10 @@ export const Navbar = () => {
         <Toolbar>
             <Button component={RouterLink} to="/test" color="success">Test</Button>
           <Restricted to={["diak"]}>
-            {permissions && <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to={`/students/${permissions.torzsszam}`} color="success">Saját Oldal</Button>}
+            {permissions && <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to={`/students/${permissions.torzsszam ? permissions.torzsszam : 1}`} color="success">Saját Oldal</Button>}
           </Restricted>
           <Restricted to={["tanar"]}>
-            {permissions && <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to={`/classes/${permissions.osztalyfonoke}`} color="success">Osztályom</Button>}
+            {permissions && <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to={`/classes/${permissions.osztalyfonoke ? permissions.osztalyfonoke : ""}`} color="success">Osztályom</Button>}
             <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to='/classes' color="success">Osztályok</Button>
             <Button sx={{ flex: 1 , justifyContent: "left"}} component={RouterLink} to="/students" color="success">Diákok</Button>
           </Restricted>

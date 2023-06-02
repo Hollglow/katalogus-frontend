@@ -33,10 +33,12 @@ export const studentLoader = async (params, claims) => {
     const tanuloSnap = await getDoc(tanuloRef);
     let gradeQuery = query(gradeRef, where("Torzsszam", "==", params.studentId));
     let absenceQuery = query(absencesRef, where("Torzsszam", "==", params.studentId))
-    if(claims && claims.tanar) {
+    if(claims && claims.tanar && !claims.admin) {
       const tanarSnapshot = await getDoc(doc(firestore, "Tanarok", claims.torzsszam));
-      gradeQuery = query(gradeQuery, where("Targy", "in", tanarSnapshot.data().Tantargy[tanuloSnap.data().Osztaly]));
-      absenceQuery = query(absenceQuery, where("Targy", "in", tanarSnapshot.data().Tantargy[tanuloSnap.data().Osztaly]));
+      if(tanarSnapshot.data().Osztalyfonoke !== tanuloSnap.data().Osztaly){
+        gradeQuery = query(gradeQuery, where("Targy", "in", tanarSnapshot.data().Tantargy[tanuloSnap.data().Osztaly]));
+        absenceQuery = query(absenceQuery, where("Targy", "in", tanarSnapshot.data().Tantargy[tanuloSnap.data().Osztaly]));
+      }
     }
     const subjectsRef = doc(firestore, "Osztalyok", tanuloSnap.data().Osztaly);
     const tanuloInfoSnap = await getDoc(doc(tanuloRef, "Informaciok", "Informacio"));

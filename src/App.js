@@ -46,7 +46,7 @@ function App() {
         <Route path="/classes" element = {<ClassesPage/>} loader={classesLoader}/>
         <Route path="/classes/:classId" element = {<ClassPage/>} loader={({params}) => classLoader(params)}/>
         <Route path="/students/:studentId" element = {<StudentPage/>} loader={({params}) => studentLoader(params, user.claims)}/>
-        <Route path="/students" element = {<AllStudentPage/>} loader={allStudentLoader}/>
+        <Route path="/students" element = {<AllStudentPage/>} loader={() => allStudentLoader(user.claims)}/>
         <Route path="/upload" element = {<UploadPage/>} />
         <Route path="/error" element = {<ErrorPage/>} />
   
