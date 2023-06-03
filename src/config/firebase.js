@@ -4,7 +4,6 @@ import { getAnalytics } from "firebase/analytics";
 import { getFirestore } from "firebase/firestore";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
-// TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
@@ -16,7 +15,7 @@ const firebaseConfig = {
   storageBucket: "szakdoga-a8fb9.appspot.com",
   messagingSenderId: "156338303940",
   appId: "1:156338303940:web:45715b7107f8c7720caa91",
-  measurementId: "G-VGWFHD0HEM"
+  measurementId: "G-VGWFHD0HEM",
 };
 
 // Initialize Firebase

@@ -1,36 +1,49 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+} from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
-
 
 //DEPRECATED OBSOLETE
 export const ClassStudentsTable = (props) => {
-  const tableHeader = props.id ? <Button component={RouterLink} to ={`/classes/${props.id}`}>
-                                  <TableCell>{props.id}</TableCell>
-                                 </Button>
-                                : 
-                                 <TableCell>Név</TableCell>;
+  const tableHeader = props.id ? (
+    <Button component={RouterLink} to={`/classes/${props.id}`}>
+      <TableCell>{props.id}</TableCell>
+    </Button>
+  ) : (
+    <TableCell>Név</TableCell>
+  );
   const filter = props.filter ? props.filter : "";
-  console.log(props.students)
+  console.log(props.students);
   return (
-    <TableContainer component={Paper} sx={{margin:'auto', maxWidth:'50%'}}>
+    <TableContainer component={Paper} sx={{ margin: "auto", maxWidth: "50%" }}>
       <Table>
         <TableHead>
-          <TableRow>
-            {tableHeader}
-          </TableRow>
+          <TableRow>{tableHeader}</TableRow>
         </TableHead>
         <TableBody>
-          {Object.entries(props.students).map(([id, student]) => (
-            student.toLowerCase().includes(filter.toLowerCase()) && 
-            <TableRow key={id}>
-              <Button component={RouterLink} to={`/students/${id}`} sx={{width:'-moz-available', display:'block'}}>
-                <TableCell>{student}</TableCell>
-              </Button>
-            </TableRow>
-          ))}
+          {Object.entries(props.students).map(
+            ([id, student]) =>
+              student.toLowerCase().includes(filter.toLowerCase()) && (
+                <TableRow key={id}>
+                  <Button
+                    component={RouterLink}
+                    to={`/students/${id}`}
+                    sx={{ width: "-moz-available", display: "block" }}
+                  >
+                    <TableCell>{student}</TableCell>
+                  </Button>
+                </TableRow>
+              )
+          )}
         </TableBody>
       </Table>
     </TableContainer>
   );
-}
-
+};

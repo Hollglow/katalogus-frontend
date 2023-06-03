@@ -1,17 +1,30 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material"
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 import PermissionContext from "./PermissionContext";
 
 export const ClassesTable = (props) => {
   const navigate = useNavigate();
   const handleClickRow = (id) => {
-    navigate(`/classes/${id}`)
-  }
-  const {permissions} = useContext(PermissionContext);
-  const filtered = permissions.admin ? props.data : props.data.filter(element => permissions[element] || permissions.osztalyfonoke === element);
+    navigate(`/classes/${id}`);
+  };
+  const { permissions } = useContext(PermissionContext);
+  const filtered = permissions.admin
+    ? props.data
+    : props.data.filter(
+        (element) =>
+          permissions[element] || permissions.osztalyfonoke === element
+      );
   return (
-    <TableContainer component={Paper} sx={{margin:'auto', maxWidth:'30%'}}>
+    <TableContainer component={Paper} sx={{ margin: "auto", maxWidth: "30%" }}>
       <Table aria-label="paginated table">
         <TableHead>
           <TableRow>
@@ -19,15 +32,20 @@ export const ClassesTable = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filtered.map((classId) => (
-            <TableRow key={classId} hover onClick={() => handleClickRow(classId)}>
-              <TableCell>
-              {classId}
-              </TableCell>
-            </TableRow>
-          ), [])}
+          {filtered.map(
+            (classId) => (
+              <TableRow
+                key={classId}
+                hover
+                onClick={() => handleClickRow(classId)}
+              >
+                <TableCell>{classId}</TableCell>
+              </TableRow>
+            ),
+            []
+          )}
         </TableBody>
       </Table>
-      </TableContainer>
-  )
-}
+    </TableContainer>
+  );
+};

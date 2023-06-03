@@ -7,21 +7,20 @@ import { redirect, useLoaderData } from "react-router-dom";
 export const ClassesPage = () => {
   const data = useLoaderData();
   return (
-  <Container sx={{paddingTop: 2}}>
-    <ClassesTable data = {data}/>
-  </Container>
-    );
-}
+    <Container sx={{ paddingTop: 2 }}>
+      <ClassesTable data={data} />
+    </Container>
+  );
+};
 
 export const classesLoader = async () => {
   const ref = doc(firestore, "Config", "Osztalyok");
   try {
     const osztalyokSnap = await getDoc(ref);
-    
+
     return osztalyokSnap.data().Osztalyok;
   } catch (err) {
     console.error(err);
     return redirect("/error");
   }
-  
-  };
+};

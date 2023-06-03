@@ -1,8 +1,15 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 import { ClassStatisticsTableRow } from "./ClassStatisticsTableRow";
 
 export const ClassStatisticsTable = (props) => {
-
   const statisticDictionary = {
     Varosi: "Városi",
     Falusi: "Vidéki",
@@ -11,11 +18,11 @@ export const ClassStatisticsTable = (props) => {
     Halasztott: "Évet Halasztott",
     OsztalyIsmetlo: "Osztály Ismétlő",
     IskolaOtthagyas: "Iskola Otthagyás",
-    HianyzasbolIsmetlo: "Hiányzás miatt ismétlő"
-  }
+    HianyzasbolIsmetlo: "Hiányzás miatt ismétlő",
+  };
 
   return (
-    <TableContainer component={Paper} sx={{margin:'auto', maxWidth:'70%'}}>
+    <TableContainer component={Paper} sx={{ margin: "auto", maxWidth: "70%" }}>
       <Table>
         <TableHead>
           <TableRow>
@@ -27,13 +34,10 @@ export const ClassStatisticsTable = (props) => {
         </TableHead>
         <TableBody>
           {Object.entries(statisticDictionary).map(([key, value]) => (
-            <ClassStatisticsTableRow propKey = {key} value = {value} data = {props}/>
+            <ClassStatisticsTableRow propKey={key} value={value} data={props} />
           ))}
-
-        
         </TableBody>
       </Table>
-      
     </TableContainer>
   );
-}
+};

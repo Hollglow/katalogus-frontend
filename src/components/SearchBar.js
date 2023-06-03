@@ -1,19 +1,24 @@
 import { InputAdornment, TextField } from "@mui/material";
-import SearchIcon from '@mui/icons-material/Search';
+import SearchIcon from "@mui/icons-material/Search";
 
-export const SearchBar = ({callback}) => {
+export const SearchBar = ({ callback }) => {
   const handleSearch = (value) => {
     callback(value);
-  }
-  return(
-      <TextField InputProps={{
+  };
+  return (
+    <TextField
+      InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            <SearchIcon/>
+            <SearchIcon />
           </InputAdornment>
-        )
-      }}  
-      label="Search" variant="outlined" onChange={(event) => {handleSearch(event.target.value)}}></TextField> 
-     
+        ),
+      }}
+      label="Search"
+      variant="outlined"
+      onChange={(event) => {
+        handleSearch(event.target.value);
+      }}
+    ></TextField>
   );
-}
+};

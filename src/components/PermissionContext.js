@@ -1,9 +1,9 @@
-import { createContext } from "react"
+import { createContext } from "react";
 
 const defaultBehaviour = {
   isAllowedTo: () => false,
-  permissions: {}
-}
+  permissions: {},
+};
 
 const PermissionContext = createContext(defaultBehaviour);
 
