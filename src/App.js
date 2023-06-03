@@ -13,6 +13,7 @@ import { auth } from './config/firebase';
 import { TestPage } from './pages/TestPage';
 import { ErrorPage } from './pages/ErrorPage';
 import { ClassesPage, classesLoader } from './pages/ClassesPage';
+import { GuardedRoute } from './components/GuardedRoute';
 
 
 function App() {
@@ -43,11 +44,21 @@ function App() {
         <Route index element = {<WelcomePage/>}/>
         <Route path="/test" element = {<TestPage/>}/>
         <Route path="/sign-in" element = {<SignInPage/>}/>
-        <Route path="/classes" element = {<ClassesPage/>} loader={classesLoader}/>
-        <Route path="/classes/:classId" element = {<ClassPage/>} loader={({params}) => classLoader(params)}/>
-        <Route path="/students/:studentId" element = {<StudentPage/>} loader={({params}) => studentLoader(params, user.claims)}/>
-        <Route path="/students" element = {<AllStudentPage/>} loader={() => allStudentLoader(user.claims)}/>
-        <Route path="/upload" element = {<UploadPage/>} />
+        <Route element={<GuardedRoute AccessibleTo={["tanar", "admin"]} redirectRoute='/error'/>}>
+          <Route path="/classes" element = {<ClassesPage/>} loader={classesLoader}/>
+        </Route>
+        <Route element={<GuardedRoute AccessibleTo={["tanar", "admin"]} redirectRoute='/error'/>}>
+          <Route path="/classes/:classId" element = {<ClassPage/>} loader={({params}) => classLoader(params)}/>
+        </Route>
+        <Route element={<GuardedRoute AccessibleTo={["diak", "tanar", "admin"]} redirectRoute='/error'/>}>
+          <Route path="/students/:studentId" element = {<StudentPage/>} loader={({params}) => studentLoader(params, user.claims)}/>
+        </Route>
+        <Route element={<GuardedRoute AccessibleTo={["tanar", "admin"]} redirectRoute='/error'/>}>
+          <Route path="/students" element = {<AllStudentPage/>} loader={() => allStudentLoader(user.claims)}/>
+        </Route>
+        <Route element={<GuardedRoute AccessibleTo={["admin"]} redirectRoute='/error'/>}>
+          <Route path="/upload" element = {<UploadPage/>} />
+        </Route>
         <Route path="/error" element = {<ErrorPage/>} />
   
       </Route>

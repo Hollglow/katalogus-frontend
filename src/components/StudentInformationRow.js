@@ -4,6 +4,7 @@ import CheckIcon from "@mui/icons-material/Check"
 import { useState } from "react";
 import { UpdateStudentInformation } from "../database/DatabaseInterface";
 import { useParams } from "react-router-dom";
+import Restricted from "./Restricted";
 
 export const StudentInformationRow = (props) => {
   const [editing, setEditing] = useState(false);
@@ -27,20 +28,22 @@ export const StudentInformationRow = (props) => {
 
   console.log(typeof props.data.value)
 
-  const editableComponent = editing ? <><TextField sx={{display: 'inline-block'}} label="Edit" variant="standard" defaultValue={props.data.value} onChange={(event) => {setEdit(event.target.value)}}></TextField> 
+  const editableComponent = editing ? <Restricted to={["tanar"]}><TextField sx={{display: 'inline-block'}} label="Edit" variant="standard" defaultValue={props.data.value} onChange={(event) => {setEdit(event.target.value)}}></TextField> 
                                         <IconButton sx={{display:"inline-block"}} aria-label="check" onClick={handleEditSend}>
                                           <CheckIcon/>
                                         </IconButton>
-                                      </>
+                                      </Restricted>
                                       :
                                       <Typography sx={{display: 'inline-block'}}>{props.data.value}</Typography>;
 
   return (
     <>
       {editableComponent}
-      <IconButton sx={{float: 'right', margin: 1}} aria-label="edit" onClick={handleEditClick}>
-        <EditIcon/>
-      </IconButton>
+      <Restricted to={["tanar"]}>
+        <IconButton sx={{float: 'right', margin: 1}} aria-label="edit" onClick={handleEditClick}>
+          <EditIcon/>
+        </IconButton>
+      </Restricted>
     </>
   );
 }

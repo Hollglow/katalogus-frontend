@@ -1,7 +1,8 @@
 import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControlLabel, IconButton, Stack, Typography } from "@mui/material"
 import ClearIcon from "@mui/icons-material/Clear"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { DeleteAbsence, UpdateAbsence } from "../database/DatabaseInterface"
+import PermissionContext from "./PermissionContext"
 
 export const AbsencesRow = (props) => {
   const handleToggleAbsence = async (event) => {
@@ -25,6 +26,9 @@ export const AbsencesRow = (props) => {
     await DeleteAbsence(props.absence.id);
     props.onAbsenceDelete(props.absence.id);
   }
+
+  const {isAllowedTo} = useContext(PermissionContext);
+
   return (
     <>
     <Stack direction="row">
@@ -32,7 +36,7 @@ export const AbsencesRow = (props) => {
                       <ClearIcon/>
                     </IconButton>}
     <Box>
-      <FormControlLabel display="inline" sx={{fontSize: 16}} control={<Checkbox checked={confirmed} inputProps={{ 'aria-label': 'controlled' }} onChange={handleToggleAbsence} name= {props.absence.id} />} label="Igazolt -"/> 
+      <FormControlLabel disabled={!isAllowedTo(["tanar"])} display="inline" sx={{fontSize: 16}} control={<Checkbox checked={confirmed} inputProps={{ 'aria-label': 'controlled' }} onChange={handleToggleAbsence} name= {props.absence.id} />} label="Igazolt -"/> 
       <Typography display="inline" sx={{color: "gray", fontSize: 10}}>{props.absence.Datum.toDate().toLocaleDateString("en-US")}</Typography>
     </Box>
     </Stack>

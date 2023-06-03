@@ -9,6 +9,7 @@ import { Timestamp } from 'firebase/firestore';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
+import Restricted from './Restricted';
 
 
 export const GradeTable = (props) => {
@@ -154,9 +155,11 @@ export const GradeTable = (props) => {
                 </Stack>
               </TableCell>
               <TableCell>
-                <IconButton aria-label="edit" onClick={() => handleEditGradeClick(subject)} >
-                  <EditIcon/>
-                </IconButton>
+                <Restricted to={["tanar"]}>
+                  <IconButton aria-label="edit" onClick={() => handleEditGradeClick(subject)} >
+                    <EditIcon/>
+                  </IconButton>
+                </Restricted>
               </TableCell>
               <TableCell>
                 
@@ -171,9 +174,11 @@ export const GradeTable = (props) => {
                 </Stack>
               </TableCell>
               <TableCell>
-                <IconButton aria-label="edit" onClick={() => handleEditAbsenceClick(subject)} >
-                  <EditIcon/>
-                </IconButton>
+                <Restricted to={["tanar"]}>
+                  <IconButton aria-label="edit" onClick={() => handleEditAbsenceClick(subject)} >
+                    <EditIcon/>
+                  </IconButton>
+                </Restricted>
               </TableCell>
             </TableRow>
         ))}
