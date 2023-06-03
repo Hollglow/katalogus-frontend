@@ -1,5 +1,5 @@
 import { Button, Stack } from "@mui/material"
-import { tanarbeosztasFillExcel, tanarokFillExcel, tanulokFillExcel } from "../database/CsvImport"
+import { generateAdmin, tanarbeosztasFillExcel, tanarokFillExcel, tanulokFillExcel } from "../database/CsvImport"
 import { useState } from "react";
 
 
@@ -22,6 +22,9 @@ export const UploadPage = () => {
       case 'beosztas':
         await tanarbeosztasFillExcel(e);
         break;
+      case 'admin':
+        await generateAdmin();
+        break;
       default:
         console.error("Bad option");
     }
@@ -33,6 +36,7 @@ export const UploadPage = () => {
       <Button disabled = {loading} variant="contained" component="label">Tanulok Excel Feltöltés<input type="file" accept=".csv" hidden onChange={(e) => buttonLoadingWrapper('tanulo', e)}></input></Button>
       <Button disabled = {loading} variant="contained" component="label">Tanarok Excel Feltöltés<input type="file" accept=".csv" hidden onChange={(e) => buttonLoadingWrapper('tanar', e)}></input></Button>
       <Button disabled = {loading} variant="contained" component="label">Tanar Beosztas Excel Feltöltés<input type="file" accept=".csv" hidden onChange={(e) => buttonLoadingWrapper('beosztas', e)}></input></Button>
+      <Button disabled = {loading} variant="contained" component="label" onClick={() => buttonLoadingWrapper('admin')}>Admin Generálás</Button>
     </Stack>
   )
 }

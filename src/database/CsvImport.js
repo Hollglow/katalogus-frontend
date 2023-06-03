@@ -5,6 +5,39 @@ import { faker } from '@faker-js/faker';
 import { GenerateHash, GeneratePassword, GenerateSalt } from "./Cryptography";
 
 
+export const generateAdmin = async () => {
+  const uid = GenerateAdminUid();
+
+  const salt = GenerateSalt();
+  
+  const pass = GeneratePassword();
+  
+  const hash = GenerateHash(pass, salt);
+
+  await setDoc(doc(firestore, "Users", uid), {
+    Roles: {
+      admin: true,
+      tanar: false,
+      diak: false,
+    },
+    Salt: salt,
+    Hash: hash,
+  });
+
+  const file = new Blob([JSON.stringify({pass: pass, uid: uid})], {
+    type: 'application/json',
+  });
+  const url = window.URL.createObjectURL(file);
+  const a = document.createElement('a');
+  a.setAttribute('hidden', '');
+  a.setAttribute('href', url);
+  a.setAttribute('download', 'admin.json');
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  
+}
+
 
 export const tanulokFillExcel = async (e) => {
   const csvFile = e.target.files[0];
@@ -282,4 +315,8 @@ const GenerateTeacherUid = (name) => {
 
 const GenerateStudentUid = (name, id) => {
   return name.split(/\s/).reduce((response, word) => response += word.slice(0,1), '') + id;
+}
+
+const GenerateAdminUid = () => {
+  return "admin_" + faker.random.alpha(6);
 }

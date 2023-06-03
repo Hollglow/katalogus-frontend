@@ -16,11 +16,11 @@ export const StudentPage = () =>{
   }
   return(
     <>
-    <Stack direction="row" alignItems="flex-start" justifyContent="space-between" spacing={2} sx={{margin: 2}}>
+    <Stack direction="row" alignItems="flex-start" spacing={4} sx={{margin: '20px auto', maxWidth:"fit-content"}}>
       <ProfileCard data = {data}/>
-      <StudentInformationCard data = {data}/>
+      <StudentGradesCard data = {data.grades} subjects = {data.subjects} absences = {data.absences} studentName={data.Nev} studentId={data.studentId}/>
     </Stack>
-    <StudentGradesCard data = {data.grades} subjects = {data.subjects} absences = {data.absences} studentName={data.Nev} studentId={data.studentId}/>
+    <StudentInformationCard data = {data}/>
     </>
   );
 }

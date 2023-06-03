@@ -115,7 +115,7 @@ export const GradeTable = (props) => {
 
   return (
     <>
-    <TableContainer component={Paper} sx={{margin:'auto', maxWidth:'50%'}}>
+    <TableContainer component={Paper} sx={{margin:1, maxWidth:'85%'}}>
       <Table aria-label="paginated table">
         <TableHead>
           <TableRow>

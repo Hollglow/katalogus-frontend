@@ -48,10 +48,10 @@ export const PaginatedStudentTable = (props) => {
             : Object.entries(filteredData)
           ).map(([id, student]) => (
             <TableRow key={id} hover onClick={() => handleClickRow(id)}>
-              <TableCell>
+              <TableCell sx={{padding:'10px 20px'}}>
                 {student}
               </TableCell>
-              <TableCell>
+              <TableCell sx={{padding:'10px 20px'}}>
                 {id}
               </TableCell>
             </TableRow>

@@ -40,7 +40,7 @@ export const StudentInformationRow = (props) => {
     <>
       {editableComponent}
       <Restricted to={["tanar"]}>
-        <IconButton sx={{float: 'right', margin: 1}} aria-label="edit" onClick={handleEditClick}>
+        <IconButton sx={{float: 'right', margin: 0}} aria-label="edit" onClick={handleEditClick}>
           <EditIcon/>
         </IconButton>
       </Restricted>

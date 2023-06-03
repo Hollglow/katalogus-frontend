@@ -14,6 +14,7 @@ import { TestPage } from './pages/TestPage';
 import { ErrorPage } from './pages/ErrorPage';
 import { ClassesPage, classesLoader } from './pages/ClassesPage';
 import { GuardedRoute } from './components/GuardedRoute';
+import { updateProfile } from 'firebase/auth';
 
 
 function App() {
@@ -21,6 +22,9 @@ function App() {
     const user = auth.currentUser;
     if(user){
       const token = await user.getIdTokenResult();
+      await updateProfile(user, {
+        photoURL: "https://picsum.photos/200"
+      });
       return token;
     } else {
       return user;
