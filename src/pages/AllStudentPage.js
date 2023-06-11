@@ -70,7 +70,7 @@ export const allStudentLoader = async (claims) => {
   let ref = collection(firestore, "Osztalyok");
   if (claims && claims.tanar && !claims.admin) {
     let keys = Object.keys(claims);
-    const osztalyok = await getDoc(doc(firestore, "Config", "Osztalyok"));
+    const osztalyok = await getDoc(doc(firestore, "Extra", "Osztalyok"));
     keys = osztalyok
       .data()
       .Osztalyok.filter((element) => keys.includes(element));

@@ -14,7 +14,7 @@ export const ClassesPage = () => {
 };
 
 export const classesLoader = async () => {
-  const ref = doc(firestore, "Config", "Osztalyok");
+  const ref = doc(firestore, "Extra", "Osztalyok");
   try {
     const osztalyokSnap = await getDoc(ref);
 

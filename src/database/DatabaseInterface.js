@@ -83,13 +83,13 @@ export const UpdateClassStatistic = async (classId, gender, key, value) => {
 };
 
 export const GetAllTeachers = async () => {
-  const ref = doc(firestore, "Config", "Config");
+  const ref = doc(firestore, "Extra", "Config");
   const teachersSnapshot = await getDoc(ref);
   return teachersSnapshot;
 };
 
 export const GetAllSubjectsAndTeachers = async () => {
-  const ref = doc(firestore, "Config", "Config");
+  const ref = doc(firestore, "Extra", "Config");
   const snapshot = await getDoc(ref);
   return snapshot;
 };

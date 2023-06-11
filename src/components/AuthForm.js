@@ -35,8 +35,14 @@ export const AuthForm = () => {
       }
     };
 
-    xhr.open("GET", `http://localhost:8080?uid=${uid}&pass=${pass}`);
-    xhr.send();
+    xhr.open("POST", "http://localhost:8080");
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhr.send(
+      new URLSearchParams({
+        uid: uid,
+        pass: pass,
+      })
+    );
   };
 
   const signIn = async () => {

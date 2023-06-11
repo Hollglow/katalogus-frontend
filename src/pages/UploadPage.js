@@ -40,7 +40,7 @@ export const UploadPage = () => {
       margin={10}
     >
       <Button disabled={loading} variant="contained" component="label">
-        Tanulok Excel Feltöltés
+        Tanulók CSV Feltöltés
         <input
           type="file"
           accept=".csv"
@@ -49,7 +49,7 @@ export const UploadPage = () => {
         ></input>
       </Button>
       <Button disabled={loading} variant="contained" component="label">
-        Tanarok Excel Feltöltés
+        Tanárok CSV Feltöltés
         <input
           type="file"
           accept=".csv"
@@ -58,7 +58,7 @@ export const UploadPage = () => {
         ></input>
       </Button>
       <Button disabled={loading} variant="contained" component="label">
-        Tanar Beosztas Excel Feltöltés
+        Tanár Beosztás CSV Feltöltés
         <input
           type="file"
           accept=".csv"

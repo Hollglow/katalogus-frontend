@@ -21,7 +21,7 @@ export const generateAdmin = async () => {
 
   const hash = GenerateHash(pass, salt);
 
-  await setDoc(doc(firestore, "Users", uid), {
+  await setDoc(doc(firestore, "Felhasznalok", uid), {
     Roles: {
       admin: true,
       tanar: false,
@@ -149,7 +149,7 @@ const tanulokFill = async (tanulo) => {
       [`Diakok.${tanulo.Törzsszám}`]: tanulo.Név,
     });
     await setDoc(
-      doc(firestore, "Config", "Osztalyok"),
+      doc(firestore, "Extra", "Osztalyok"),
       {
         Osztalyok: arrayUnion(tanulo.Osztály),
       },
@@ -228,7 +228,7 @@ const tanulokFill = async (tanulo) => {
 
   const hash = GenerateHash(pass, salt);
 
-  await setDoc(doc(firestore, "Users", uid), {
+  await setDoc(doc(firestore, "Felhasznalok", uid), {
     Roles: {
       admin: false,
       tanar: false,
@@ -256,7 +256,7 @@ const beosztasFill = async (beosztas) => {
   );
 
   await setDoc(
-    doc(firestore, "Config", "Config"),
+    doc(firestore, "Extra", "Config"),
     {
       Tantargyak: arrayUnion(beosztas[2]),
     },
@@ -273,7 +273,7 @@ const beosztasFill = async (beosztas) => {
         [`Tantargy.${beosztas[iter]}`]: arrayUnion(beosztas[2]),
       });
       await updateDoc(
-        doc(firestore, "Users", tanarSnapshot.data().Uid),
+        doc(firestore, "Felhasznalok", tanarSnapshot.data().Uid),
         {
           [`Roles.${beosztas[iter]}`]: true,
         },
@@ -317,7 +317,7 @@ const tanarokFill = async (tanar) => {
   });
 
   await setDoc(
-    doc(firestore, "Config", "Config"),
+    doc(firestore, "Extra", "Config"),
     {
       Tanarok: arrayUnion(tanar.Név),
     },
@@ -331,7 +331,7 @@ const tanarokFill = async (tanar) => {
   const hash = GenerateHash(pass, salt);
 
   //console.log(uid, salt, pass, hash);
-  await setDoc(doc(firestore, "Users", uid), {
+  await setDoc(doc(firestore, "Felhasznalok", uid), {
     Roles: {
       admin: false,
       tanar: true,
