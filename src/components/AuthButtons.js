@@ -17,7 +17,7 @@ export const AuthButtons = () => {
   if (!userLogged) {
     return (
       <>
-        <Button component={RouterLink} to="/sign-in" color="secondary">
+        <Button component={RouterLink} to="/sign-in" sx={{ color: "white" }}>
           Bejelentkezés
         </Button>
       </>

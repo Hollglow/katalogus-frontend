@@ -85,7 +85,7 @@ export const AuthForm = () => {
           sx={{ width: "inherit" }}
           required
           type="password"
-          label="Password"
+          label="Jelszó"
           variant="outlined"
           onChange={(event) => {
             setPassword(event.target.value);
@@ -96,7 +96,7 @@ export const AuthForm = () => {
           onClick={signIn}
           variant="contained"
         >
-          Sign In
+          Bejelentkezés
         </Button>
       </Container>
     </Box>
