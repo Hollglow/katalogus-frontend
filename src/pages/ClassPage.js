@@ -1,12 +1,15 @@
 import { CircularProgress, Stack } from "@mui/material";
-import { doc, getDoc } from "firebase/firestore";
-import { firestore } from "../config/firebase";
 import { redirect, useLoaderData, useNavigation } from "react-router-dom";
 import { PaginatedStudentTable } from "../components/PaginatedStudentTable";
 import { ProfileCard } from "../components/ProfileCard";
 import { merge } from "lodash";
 import { ClassStatisticsTable } from "../components/ClassStatisticsTable";
 import { ClassTeacherTable } from "../components/ClassTeacherTable";
+import {
+  GetClass,
+  GetClassFemaleStats,
+  GetClassMaleStats,
+} from "../database/DatabaseInterface";
 
 export const ClassPage = () => {
   const data = useLoaderData();
@@ -34,16 +37,10 @@ export const ClassPage = () => {
 };
 
 export const classLoader = async (params) => {
-  const ref = params.classId
-    ? doc(firestore, "Osztalyok", `${params.classId}`)
-    : doc(firestore, "Osztalyok", "11");
-  const statRef = doc(ref, "Statisztikak", "Statisztika");
-  const maleRef = doc(statRef, "Fiu", "Statisztika");
-  const femaleRef = doc(statRef, "Lany", "Statisztika");
   try {
-    const oszyalySnap = await getDoc(ref);
-    const maleSnap = await getDoc(maleRef);
-    const femaleSnap = await getDoc(femaleRef);
+    const oszyalySnap = await GetClass(params.classId);
+    const maleSnap = await GetClassMaleStats(params.classId);
+    const femaleSnap = await GetClassFemaleStats(params.classId);
     return merge(
       oszyalySnap.data(),
       { male: maleSnap.data() },

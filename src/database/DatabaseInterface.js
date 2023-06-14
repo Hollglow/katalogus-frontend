@@ -24,6 +24,61 @@ export const GetAllClasses = async () => {
   return classesSnapshot;
 };
 
+export const GetClasses = async (ref) => {
+  const classesSnapshot = await getDocs(ref);
+  return classesSnapshot;
+};
+
+export const GetClass = async (classId) => {
+  const classesSnapshot = await getDoc(doc(firestore, "Osztalyok", classId));
+  return classesSnapshot;
+};
+export const GetClassMaleStats = async (classId) => {
+  const classesSnapshot = await getDoc(
+    doc(
+      firestore,
+      "Osztalyok",
+      classId,
+      "Statisztikak",
+      "Statisztika",
+      "Fiu",
+      "Statisztika"
+    )
+  );
+  return classesSnapshot;
+};
+export const GetClassFemaleStats = async (classId) => {
+  const classesSnapshot = await getDoc(
+    doc(
+      firestore,
+      "Osztalyok",
+      classId,
+      "Statisztikak",
+      "Statisztika",
+      "Lany",
+      "Statisztika"
+    )
+  );
+  return classesSnapshot;
+};
+
+export const GetStudent = async (studentId) => {
+  const ref = doc(firestore, "Tanulok", studentId);
+  const studentSnapshot = await getDoc(ref);
+  return studentSnapshot;
+};
+export const GetStudentInformation = async (studentId) => {
+  const ref = doc(firestore, "Tanulok", studentId, "Informaciok", "Informacio");
+  const studentSnapshot = await getDoc(ref);
+  return studentSnapshot;
+};
+
+export const GetAllClassesExtra = async () => {
+  const ref = doc(firestore, "Extra", "Osztalyok");
+  const classesSnapshot = await getDoc(ref);
+  return classesSnapshot;
+};
+
 export const AddGrade = async (
   subject,
   grade,
@@ -86,6 +141,12 @@ export const GetAllTeachers = async () => {
   const ref = doc(firestore, "Extra", "Config");
   const teachersSnapshot = await getDoc(ref);
   return teachersSnapshot;
+};
+
+export const GetTeacher = async (teacherId) => {
+  const ref = doc(firestore, "Tanarok", teacherId);
+  const teacherSnapshot = await getDoc(ref);
+  return teacherSnapshot;
 };
 
 export const GetAllSubjectsAndTeachers = async () => {

@@ -1,19 +1,12 @@
 import { CircularProgress, Stack } from "@mui/material";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  or,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, or, query, where } from "firebase/firestore";
 import { firestore } from "../config/firebase";
 import { redirect, useLoaderData, useNavigation } from "react-router-dom";
 import { SearchBar } from "../components/SearchBar";
 import { useState } from "react";
 import { ClassSelector } from "../components/ClassSelector";
 import { PaginatedStudentTable } from "../components/PaginatedStudentTable";
+import { GetAllClassesExtra, GetClasses } from "../database/DatabaseInterface";
 
 export const AllStudentPage = () => {
   const data = useLoaderData();
@@ -70,7 +63,7 @@ export const allStudentLoader = async (claims) => {
   let ref = collection(firestore, "Osztalyok");
   if (claims && claims.tanar && !claims.admin) {
     let keys = Object.keys(claims);
-    const osztalyok = await getDoc(doc(firestore, "Extra", "Osztalyok"));
+    const osztalyok = await GetAllClassesExtra();
     keys = osztalyok
       .data()
       .Osztalyok.filter((element) => keys.includes(element));
@@ -84,7 +77,7 @@ export const allStudentLoader = async (claims) => {
     );
   }
   try {
-    const osztalySnap = await getDocs(ref);
+    const osztalySnap = await GetClasses(ref);
     console.log(osztalySnap.docs);
     return osztalySnap;
   } catch (err) {

@@ -1,18 +1,17 @@
 import { CircularProgress, Stack } from "@mui/material";
-import {
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { firestore } from "../config/firebase";
 import { redirect, useLoaderData, useNavigation } from "react-router-dom";
 import { merge } from "lodash";
 import { ProfileCard } from "../components/ProfileCard";
 import { StudentInformationCard } from "../components/StudentInformationCard";
 import { StudentGradesCard } from "../components/StudentGradesCard";
+import {
+  GetClass,
+  GetStudent,
+  GetStudentInformation,
+  GetTeacher,
+} from "../database/DatabaseInterface";
 
 export const StudentPage = () => {
   const data = useLoaderData();
@@ -44,11 +43,10 @@ export const StudentPage = () => {
 };
 
 export const studentLoader = async (params, claims) => {
-  const tanuloRef = doc(firestore, "Tanulok", params.studentId);
   const gradeRef = collection(firestore, "Jegyek");
   const absencesRef = collection(firestore, "Hianyzasok");
   try {
-    const tanuloSnap = await getDoc(tanuloRef);
+    const tanuloSnap = await GetStudent(params.studentId);
     let gradeQuery = query(
       gradeRef,
       where("Torzsszam", "==", params.studentId)
@@ -58,9 +56,7 @@ export const studentLoader = async (params, claims) => {
       where("Torzsszam", "==", params.studentId)
     );
     if (claims && claims.tanar && !claims.admin) {
-      const tanarSnapshot = await getDoc(
-        doc(firestore, "Tanarok", claims.torzsszam)
-      );
+      const tanarSnapshot = await GetTeacher(claims.torzsszam);
       if (tanarSnapshot.data().Osztalyfonoke !== tanuloSnap.data().Osztaly) {
         gradeQuery = query(
           gradeQuery,
@@ -80,12 +76,9 @@ export const studentLoader = async (params, claims) => {
         );
       }
     }
-    const subjectsRef = doc(firestore, "Osztalyok", tanuloSnap.data().Osztaly);
-    const tanuloInfoSnap = await getDoc(
-      doc(tanuloRef, "Informaciok", "Informacio")
-    );
+    const subjects = await GetClass(tanuloSnap.data().Osztaly);
+    const tanuloInfoSnap = await GetStudentInformation(params.studentId);
     const studentGradeSnap = await getDocs(gradeQuery);
-    const subjects = await getDoc(subjectsRef);
     const absences = await getDocs(absenceQuery);
     console.log("I AM HEREE");
     return merge(tanuloSnap.data(), tanuloInfoSnap.data(), {

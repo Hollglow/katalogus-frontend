@@ -1,8 +1,7 @@
 import { Container } from "@mui/material";
 import { ClassesTable } from "../components/ClassesTable";
-import { firestore } from "../config/firebase";
-import { doc, getDoc } from "firebase/firestore";
 import { redirect, useLoaderData } from "react-router-dom";
+import { GetAllClassesExtra } from "../database/DatabaseInterface";
 
 export const ClassesPage = () => {
   const data = useLoaderData();
@@ -14,9 +13,8 @@ export const ClassesPage = () => {
 };
 
 export const classesLoader = async () => {
-  const ref = doc(firestore, "Extra", "Osztalyok");
   try {
-    const osztalyokSnap = await getDoc(ref);
+    const osztalyokSnap = await GetAllClassesExtra();
 
     return osztalyokSnap.data().Osztalyok;
   } catch (err) {
