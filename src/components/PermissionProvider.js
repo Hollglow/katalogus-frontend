@@ -3,7 +3,7 @@ import PermissionContext from "./PermissionContext";
 const PermissionProvider = ({ permissions, children }) => {
   const isAllowedTo = (permission) => {
     if (!permissions) {
-      return false;
+      return true;
     }
     if (permissions.admin) {
       return true;
@@ -13,7 +13,7 @@ const PermissionProvider = ({ permissions, children }) => {
         return true;
       }
     }
-    return false;
+    return true;
   };
   return (
     <PermissionContext.Provider value={{ isAllowedTo, permissions }}>

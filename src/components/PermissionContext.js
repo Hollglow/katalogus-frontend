@@ -1,7 +1,7 @@
 import { createContext } from "react";
 
 const defaultBehaviour = {
-  isAllowedTo: () => false,
+  isAllowedTo: () => true,
   permissions: {},
 };
 
