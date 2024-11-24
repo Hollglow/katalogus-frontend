@@ -10,6 +10,7 @@ import {
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import PermissionContext from "./PermissionContext";
+import JsonFormatter from "react-json-formatter"; 
 
 export const ClassesTable = (props) => {
   const navigate = useNavigate();
