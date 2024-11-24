@@ -1,0 +1,39 @@
+# DO NOT USE IN PRODUCTION - FOR EDUCATIONAL PURPOSES ONLY
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  # Exposing sensitive data directly in the pipeline (BAD PRACTICE)
+  DB_USERNAME: "admin"
+  DB_PASSWORD: "SuperSecretPassword123"
+  API_KEY: "12345-abcde-67890-fghij"
+
+stages:
+- stage: BuildAndDeploy
+  jobs:
+  - job: Build
+    steps:
+    - task: UseNode@2
+      inputs:
+        versionSpec: '16.x'
+      displayName: 'Use Node.js'
+
+    - script: |
+        echo "Building the project..."
+        npm install
+        npm run build
+      displayName: 'Build Project'
+
+  - job: Deploy
+    dependsOn: Build
+    steps:
+    - script: |
+        echo "Deploying the application..."
+        echo "Using the following secrets:"
+        echo "DB Username: $(DB_USERNAME)"
+        echo "DB Password: $(DB_PASSWORD)"
+        echo "API Key: $(API_KEY)"
+      displayName: 'Deploy Application'
